@@ -1,0 +1,109 @@
+/* Facilities Container Styling */
+.facilities-container {
+    padding: 40px;
+    /background-color: #ffebcd; /* Light pastel background to create a warm atmosphere */
+    text-align: center;
+    font-family: 'Poppins', sans-serif;
+    margin: 0 auto;
+    max-width: 100%;
+  }
+  
+  /* Heading Styling */
+  .facilities-container h2 {
+    font-size: 2.5rem;
+    color: #ff6347; /* Bright orange-red for a lively feel */
+    margin-bottom: 20px;
+    font-family: 'Pacifico', cursive;
+    text-transform: uppercase; /* Add a playful and prominent feel to the heading */
+  }
+  
+  /* Facilities List Styling - 3 Cards per Row, 2 Rows */
+  .facilities-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 cards per row */
+    gap: 30px;
+    padding: 0;
+    justify-items: center;
+    margin-top: 40px;
+  }
+  
+  /* Facility Card Styling */
+  .facility-card {
+    display: flex;
+    flex-direction: column;
+    background-color: #fff; /* White background to make the colorful elements pop */
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    width: 100%;
+    max-width: 1024px;
+    height: 450px;
+    transition: transform 0.3s ease;
+    border: 3px solid #ff6347; /* Bright border for visual appeal */
+  }
+  
+  /* Card Hover Effect */
+  .facility-card:hover {
+    transform: translateY(-10px); /* Slight hover effect */
+    border-color: #ff9800; /* Change border color on hover */
+  }
+  
+  /* Image Section of Each Card (3/5 of height) */
+  .facility-icon {
+    flex: 3;
+    width: 100%;
+  }
+  
+  .facility-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-bottom: 5px solid #ff6347; /* Bright border below the image */
+  }
+  
+  /* Text Section of Each Card (2/5 of height) */
+  .facility-text {
+    flex: 2;
+    padding: 20px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: #f0f8ff; /* Soft blue background for the text area */
+    border-top: 3px solid #ff6347; /* Matching border on top */
+  }
+  
+  .facility-text h3 {
+    font-size: 1.5rem;
+    color: #ff6347; /* Fun bright color for the title */
+    margin: 10px 0;
+    font-family: 'Roboto', sans-serif;
+    text-transform: uppercase;
+  }
+  
+  .facility-text p {
+    font-size: 1rem;
+    color: #555;
+    line-height: 1.6;
+    font-family: 'Arial', sans-serif;
+  }
+  
+  /* Responsive Design for Mobile */
+  @media screen and (max-width: 768px) {
+    .facilities-list {
+      grid-template-columns: 1fr; /* Stack cards in a single column */
+    }
+  
+    .facility-card {
+      height: auto; /* Adjust card height on mobile */
+    }
+  
+    .facility-icon {
+      flex: 1; /* Image takes full width */
+    }
+  
+    .facility-text {
+      flex: 1; /* Text takes full width */
+      padding: 15px;
+    }
+  }

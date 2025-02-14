@@ -1,0 +1,113 @@
+/* Global styles */
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: Arial, sans-serif;
+    background-color:rgb(19, 19, 20);
+  }
+  
+  /* Home Page */
+  .home {
+    position: relative;
+  }
+  
+  /* Hero Section */
+  .hero {
+    height: 100vh; /* Full height of the viewport */
+    background: linear-gradient(to bottom, #ffcc99, #99ccff); /* Pastel gradient */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+  }
+  
+  .hero h1 {
+    font-size: 3rem;
+    color: #fff;
+    margin-bottom: 10px;
+  }
+  
+  .hero p {
+    font-size: 1.5rem;
+    color: #fff;
+  }
+  
+  /* Biography Section */
+  .biography {
+    /* background-color: #fff3e6; */
+    padding: 60px 20px;
+    text-align: center;
+  }
+  
+  .biography h3 {
+    font-size: 2.5rem;
+    color: #ff6347;
+  }
+  
+  .biography p {
+    font-size: 1.2rem;
+    color: #f9f9f9;
+  }
+  
+  /* Facilities Section */
+  .facilities {
+    background-color: #fff;
+    padding: 60px 20px;
+    text-align: center;
+  }
+  
+  .facilities h2 {
+    font-size: 2.5rem;
+    color: #ff6347;
+  }
+  
+  .facilities p {
+    font-size: 1.2rem;
+    color: #666;
+  }
+  
+  /* Teacher Section */
+  .teacher {
+    background-color:rgb(5, 173, 196);
+    padding: 60px 20px;
+    text-align: center;
+  }
+  
+  .teacher h2 {
+    font-size: 2.5rem;
+    color: #00897b;
+  }
+  
+  .teacher p {
+    font-size: 1.2rem;
+    color: #666;
+  }
+  
+  /* Wave Background */
+  .wave {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 200px; /* Height of the wave */
+    /* background: url('/Images/wave.svg') no-repeat center center; */
+    background-size: cover;
+    z-index: 0; /* Ensure wave stays behind the content */
+  }
+  
+  /* Optional: Wave Animation */
+  @keyframes waveAnimation {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-100%);
+    }
+  }
+  
+  .wave {
+    animation: waveAnimation 5s linear infinite;
+  }

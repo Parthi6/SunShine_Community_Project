@@ -1,0 +1,82 @@
+/* General Container Styling */
+.container.biography {
+    display: flex; /* Use flex to align items horizontally */
+    justify-content: center; /* Center the content horizontally */
+    align-items: center; /* Align items vertically in the center */
+    padding: 40px;
+    /* background-color: #f9f9f9;  */
+    font-family: 'Poppins', sans-serif; /* Friendly font for children */
+  }
+  
+  /* Bio Content */
+  .bio-content {
+    display: flex; /* Use flex for horizontal layout */
+    align-items: center; /* Align items vertically centered */
+    justify-content: space-between; /* Space between image and text */
+    max-width: 1200px;
+    width: 100%;
+    gap: 20px; /* Gap between image and text */
+  }
+  
+  /* Image Styling */
+  .image {
+    flex: 1; /* Image will take up available space */
+    max-width: 60%; /* 60% of the container width */
+    overflow: hidden; /* Hide any overflow on hover */
+  }
+  
+  .image img {
+    width: 100%; /* Make the image fill the container */
+    height: auto;
+    object-fit: cover;
+    border-radius: 15px; /* Soft rounded corners */
+    /* box-shadow: 0 8px 15px rgba(255, 255, 255, 0.1);  */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth hover transition */
+  }
+  
+  /* Hover Effect on Image */
+  .image img:hover {
+    transform: scale(1.005); /* Slight zoom-in effect */
+    /* box-shadow: 0 12px 25px rgba(0, 0, 0, 0.2); More pronounced shadow */
+  }
+  
+  /* Text Styling */
+  .text {
+    flex: 1; /* Text will take up the remaining space */
+    max-width: 40%; /* 40% of the container width */
+    /* background-color: #fff;  */
+    padding: 20px;
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 4px 12px rgba(253, 248, 248, 0.1);
+  }
+  
+  .text h3 {
+    font-size: 2.5rem;
+    color: #ff6347; /* Playful color like tomato */
+    font-family: 'Pacifico', cursive; /* Fun and child-friendly font */
+    margin-bottom: 20px;
+  }
+  
+  .text p {
+    font-size: 1.2rem;
+    line-height: 1.8;
+    color: #f9f9f9;
+    font-family: 'Poppins', sans-serif; /* Readable font */
+  }
+  
+  /* Responsive Design for Mobile */
+  @media screen and (max-width: 768px) {
+    .bio-content {
+      flex-direction: column; /* Stack vertically on mobile */
+      text-align: center;
+    }
+  
+    .image {
+      max-width: 100%; /* Ensure the image takes up full width on mobile */
+      margin-bottom: 20px; /* Space between image and text */
+    }
+  
+    .text {
+      max-width: 100%; /* Ensure text also takes up full width on mobile */
+    }
+  }
