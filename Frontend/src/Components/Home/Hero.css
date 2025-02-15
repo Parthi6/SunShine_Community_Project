@@ -1,10 +1,16 @@
 .hero-container {
   position: relative;
   width: 100%;
-  height: 500px; /* Adjust the height to your needs */
+  height: 480px; /* Slightly reduced height */
   overflow: hidden;
-  margin-top: 80px; /* Add margin to create space between navbar and hero image */
+  margin-top: -70px; /* Negative margin to pull it up under navbar */
+  padding-top: 30px; /* Add padding to account for navbar height */
   z-index: 0; /* Ensure the hero section is below the navbar */
+  background: linear-gradient(
+    135deg,
+    rgba(255, 107, 107, 0.1) 0%,
+    rgba(78, 205, 196, 0.1) 100%
+  );
 }
 
 .hero-slide {
@@ -48,4 +54,540 @@ nav {
   left: 0;
   width: 100%;
   z-index: 2; /* Navbar stays above the hero section */
+}
+
+.hero-section {
+    position: relative;
+    min-height: calc(100vh - 70px);
+    overflow: hidden;
+    margin-top: -70px; /* Keep this to pull up under navbar */
+    padding-top: 20px; /* Reduced from 30px */
+}
+
+/* Add brushed texture overlay */
+.hero-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23noise)' opacity='0.08'/%3E%3C/svg%3E");
+    opacity: 0.3;
+    z-index: 1;
+    pointer-events: none;
+}
+
+/* Add animated gradient background */
+.hero-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+        45deg,
+        rgba(255, 107, 107, 0.05) 0%,
+        rgba(78, 205, 196, 0.05) 25%,
+        rgba(255, 107, 107, 0.05) 50%,
+        rgba(78, 205, 196, 0.05) 75%,
+        rgba(255, 107, 107, 0.05) 100%
+    );
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
+    z-index: 0;
+}
+
+@keyframes gradientBG {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+.hero-overlay {
+    display: none; /* or you can remove this block entirely */
+}
+
+.hero-pattern {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('/patterns/dot-pattern.png');
+    opacity: 0.1;
+    z-index: 2;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 3;
+    display: flex;
+    align-items: flex-start;
+    padding-top: 30px; /* Reduced from 50px */
+}
+
+.logo-wrapper {
+    margin-bottom: 20px;
+}
+
+.hero-logo {
+    width: 150px; /* Reduced from 200px */
+    height: auto;
+    filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
+    animation: float 6s ease-in-out infinite;
+    animation-delay: 1s;
+}
+
+.hero-text {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+
+.hero-title {
+    font-size: 3.8rem;
+    font-weight: 800;
+    color: #445566;
+    margin-bottom: 1.5rem;
+    line-height: 1.2;
+    position: relative;
+}
+
+/* Welcome to styling */
+.welcome-text {
+    color: #445566;
+    font-size: 3.8rem;
+    margin-bottom: 10px;
+    opacity: 0.8;
+    text-align: left;
+    margin-left: -30px;
+}
+
+/* Vertical line specifically for SUNSHINE PRESCHOOL */
+.highlight-container {
+    position: relative;
+    padding-left: 25px;
+    text-align: left;
+    margin-bottom: 10px;
+}
+
+.highlight-container::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 4px;
+    background: linear-gradient(180deg, #FF6B6B 0%, #4ECDC4 100%);
+    border-radius: 2px;
+}
+
+/* Enhanced highlight effect with rectangle background */
+.highlight {
+    font-size: 3.8rem;
+    background: linear-gradient(
+        to right,
+        #FF6B6B,
+        #ff8585
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    position: relative;
+    display: inline-block;
+    z-index: 1;
+}
+
+/* Rectangle background effect */
+.highlight::before {
+    content: '';
+    position: absolute;
+    top: -5px;
+    left: -15px;
+    right: -15px;
+    bottom: -5px;
+    background: linear-gradient(
+        to right,
+        rgba(255, 107, 107, 0.1),
+        rgba(255, 107, 107, 0.05)
+    );
+    z-index: -1;
+    border-radius: 8px;
+    filter: blur(4px);
+}
+
+/* Add shimmer effect */
+.highlight::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+        45deg,
+        transparent 0%,
+        rgba(255, 255, 255, 0.2) 50%,
+        transparent 100%
+    );
+    background-size: 200% 200%;
+    animation: shimmer 3s infinite;
+    z-index: 1;
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: -200% 0;
+    }
+    100% {
+        background-position: 200% 0;
+    }
+}
+
+/* Adjust spacing between title lines */
+.hero-title br {
+    margin-bottom: 10px;
+    display: block;
+    content: "";
+}
+
+.hero-subtitle {
+    font-size: 1.8rem;
+    color: #666;
+    margin-bottom: 30px;
+    line-height: 1.6;
+    animation: fadeInUp 1s ease;
+    animation-delay: 0.2s;
+    opacity: 0;
+    animation-fill-mode: forwards;
+    text-align: left;
+    margin-left: -30px;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 20px;
+    
+}
+
+.hero-buttons .btn {
+    padding: 15px 35px !important;
+    font-size: 1.1rem !important;
+    font-weight: 600 !important;
+    border-radius: 50px !important;
+    transition: all 0.4s ease !important;
+    position: relative;
+    overflow: hidden;
+    border: none !important;
+    min-width: 180px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.hero-buttons .btn:first-child {
+    background: linear-gradient(45deg, #FF6B6B, #ff8585) !important;
+    color: white !important;
+    box-shadow: 0 4px 15px rgba(255, 107, 107, 0.2);
+}
+
+.hero-buttons .btn:last-child {
+    background: linear-gradient(45deg, #4ECDC4, #45b7ae) !important;
+    color: white !important;
+    box-shadow: 0 4px 15px rgba(78, 205, 196, 0.2);
+}
+
+.hero-buttons .btn:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+.hero-image-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hero-header-image {
+    width: 100%;
+    max-width: 600px;
+    height: auto;
+    filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.1));
+    transition: all 0.5s ease;
+}
+
+.hero-header-image:hover {
+    transform: translateY(-10px);
+    filter: drop-shadow(0 15px 40px rgba(0, 0, 0, 0.15));
+}
+
+.floating-shapes {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    opacity: 0.6;
+}
+
+.shape {
+    position: absolute;
+    background: linear-gradient(45deg, 
+        rgba(78, 205, 196, 0.15), 
+        rgba(255, 107, 107, 0.15)
+    );
+    border-radius: 50%;
+    animation: floatShapes 8s infinite;
+    backdrop-filter: blur(3px);
+}
+
+.shape-1 {
+    width: 100px;
+    height: 100px;
+    top: 20%;
+    left: 10%;
+    animation-delay: 0s;
+}
+
+.shape-2 {
+    width: 80px;
+    height: 80px;
+    top: 60%;
+    right: 10%;
+    animation-delay: 2s;
+}
+
+.shape-3 {
+    width: 60px;
+    height: 60px;
+    bottom: 20%;
+    left: 30%;
+    animation-delay: 4s;
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-20px);
+    }
+    100% {
+        transform: translateY(0px);
+    }
+}
+
+@keyframes floatShapes {
+    0% {
+        transform: translate(0, 0);
+    }
+    50% {
+        transform: translate(20px, 20px);
+    }
+    100% {
+        transform: translate(0, 0);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive adjustments */
+@media (max-width: 991px) {
+    .hero-section {
+        padding-top: 60px; /* Reduced from 90px */
+    }
+
+    .hero-content {
+        padding-top: 20px; /* Reduced from 30px */
+    }
+
+    .hero-text {
+        align-items: flex-start;
+        text-align: left;
+        margin-top: 0; /* Remove extra top margin */
+    }
+    
+    .welcome-text {
+        margin-left: -20px; /* Slightly reduce negative margin */
+    }
+    
+    .hero-subtitle {
+        margin-left: -20px; /* Slightly reduce negative margin */
+    }
+}
+
+@media (max-width: 768px) {
+    .hero-section {
+        padding-top: 50px; /* Reduced from 80px */
+    }
+
+    .hero-text {
+        margin-top: 0;
+    }
+    
+    .welcome-text {
+        font-size: 2.8rem; /* Reduce font size */
+        margin-left: -15px;
+    }
+    
+    .highlight {
+        font-size: 2.8rem; /* Reduce font size */
+    }
+    
+    .hero-subtitle {
+        font-size: 1.4rem;
+        margin-left: -15px;
+    }
+
+    .sun-2 {
+        display: none;
+    }
+}
+
+@media (max-width: 576px) {
+    .hero-section {
+        padding-top: 40px; /* Reduced from 70px */
+    }
+    
+    .welcome-text {
+        font-size: 2.4rem;
+        margin-left: -10px;
+    }
+    
+    .highlight {
+        font-size: 2.4rem;
+    }
+    
+    .hero-subtitle {
+        font-size: 1.2rem;
+        margin-left: -10px;
+    }
+
+    .sun-patterns {
+        display: none; /* This will hide all sun patterns */
+    }
+}
+
+/* Sun patterns styling */
+.sun-patterns {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.sun {
+    position: absolute;
+    border-radius: 50%;
+    background: radial-gradient(
+        circle at center,
+        rgba(255, 220, 100, 0.8),
+        rgba(255, 183, 107, 0.6)
+    );
+    animation: sunShine 8s infinite;
+    opacity: 0;
+}
+
+/* Sun rays using pseudo-elements */
+.sun::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    right: -50%;
+    bottom: -50%;
+    background: repeating-conic-gradient(
+        from 0deg,
+        rgba(255, 220, 100, 0.2) 0deg,
+        rgba(255, 220, 100, 0.2) 20deg,
+        transparent 20deg,
+        transparent 40deg
+    );
+    animation: sunRays 20s linear infinite;
+}
+
+.sun::after {
+    content: '';
+    position: absolute;
+    top: -20%;
+    left: -20%;
+    right: -20%;
+    bottom: -20%;
+    background: radial-gradient(
+        circle at center,
+        rgba(255, 220, 100, 0.4) 0%,
+        rgba(255, 183, 107, 0) 70%
+    );
+    border-radius: 50%;
+    animation: sunGlow 8s infinite;
+}
+
+/* Adjusted positions and sizes */
+.sun-1 { top: 10%; left: 15%; width: 100px; height: 100px; animation-delay: 0s; }
+.sun-2 { top: 30%; right: 20%; width: 80px; height: 80px; animation-delay: 2s; }
+.sun-3 { bottom: 25%; left: 25%; width: 90px; height: 90px; animation-delay: 4s; }
+.sun-4 { top: 15%; right: 35%; width: 70px; height: 70px; animation-delay: 6s; }
+.sun-5 { bottom: 20%; right: 25%; width: 85px; height: 85px; animation-delay: 3s; }
+
+@keyframes sunShine {
+    0% {
+        opacity: 0;
+        transform: scale(0.5);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.1);
+    }
+    100% {
+        opacity: 0;
+        transform: scale(0.5);
+    }
+}
+
+@keyframes sunRays {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes sunGlow {
+    0% {
+        transform: scale(1);
+        opacity: 0.3;
+    }
+    50% {
+        transform: scale(1.5);
+        opacity: 0.7;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 0.3;
+    }
+}
+
+/* Add shimmer effect */
+.sun::before {
+    mask: radial-gradient(circle at center, transparent 40%, black 50%);
+    -webkit-mask: radial-gradient(circle at center, transparent 40%, black 50%);
 }

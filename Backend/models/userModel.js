@@ -1,7 +1,6 @@
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { USER_ROLES, DEFAULT_ROLE } from "../constants/userRoles.js";
 
 const userSchema = new mongoose.Schema({
     name: {
@@ -23,8 +22,7 @@ const userSchema = new mongoose.Schema({
     },
     role: {
         type: String,
-        enum: Object.values(USER_ROLES),
-        default: DEFAULT_ROLE,
+        default: "Parent",
     },
     createdAt: {
         type: Date,
@@ -52,4 +50,4 @@ userSchema.methods.comparePassword = async function (enteredPassword) {
     return await bcrypt.compare(enteredPassword, this.password);
 };
 
-export const User = mongoose.model("User", userSchema);
+export const User = mongoose.model("User", userSchema); 
