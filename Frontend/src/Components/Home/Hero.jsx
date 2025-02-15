@@ -17,7 +17,7 @@ const Hero = () => {
         <Row className="align-items-center hero-content">
           <Col lg={6} className="hero-text">
             <h1 className="hero-title">
-              <span className="welcome-text">Welcome to</span>
+              <span className="welcome-text">Discover</span>
               <div className="highlight-container">
                 <span className="highlight">SUNSHINE</span><br />
                 <span className="highlight">PRESCHOOL</span>

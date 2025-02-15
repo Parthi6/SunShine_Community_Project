@@ -2,6 +2,7 @@ import Hero from '../components/Home/Hero';
 import Biography from '../components/Home/Biography';
 import Messages from '../components/Home/Messages';
 import Facilities from '../components/Home/Facilities';
+import Footer from '../components/Footer/Footer';
 import { Container, Row, Col } from 'react-bootstrap';
 import { FaGraduationCap, FaHeart, FaStar, FaUsers } from 'react-icons/fa';
 import './Home.css';  // Import CSS for wave background and other styles
@@ -61,7 +62,7 @@ const Home = () => {
       <div className="biography-section">
         <Container>
           <div className="section-title-wrapper text-center">
-            <h2 className="section-title">Welcome to Sunshine PreSchool</h2>
+            <h2 className="section-title">Sunshine PreSchool</h2>
             <p className="section-subtitle">Where Every Child's Future Begins</p>
           </div>
           <Biography imageUrl={"Images/about.png"} />
@@ -80,11 +81,10 @@ const Home = () => {
         </Container>
       </div>
 
-      {/* Teacher Section */}
-      {/* <Messages /> */}
+      
 
-      {/* Wave Background */}
-      <div className="wave"></div>
+      
+      <Footer />
     </div>
   );
 };
