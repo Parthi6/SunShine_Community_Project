@@ -1,131 +1,190 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { toast } from "react-toastify";
+import { Container, Card, Form, Button, Row, Col } from 'react-bootstrap';
+import './Enrollment.css';
 
 const Enrollment = () => {
-  const [fatherName, setFatherName] = useState("");
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
-  const [fatherNic, setFatherNic] = useState("");
-  const [address, setAddress] = useState("");
-  const [studentName, setStudentName] = useState("");
-  const [dob, setDob] = useState("");
-  const [gender, setGender] = useState("");
+  const [formData, setFormData] = useState({
+    parentName: "",
+    email: "",
+    phone: "",
+    nic: "",
+    address: "",
+    studentName: "",
+    dob: "",
+    gender: ""
+  });
 
-  const handleEnrollment = async (e) => {
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const { data } = await axios.post(
         "http://localhost:4000/api/v1/enrollment/form",
-        {
-          fatherName,
-          email,
-          phone,
-          fatherNic,
-          address,
-          studentName,
-          dob,
-          gender,
-        },
+        formData,
         {
           withCredentials: true,
           headers: { "Content-Type": "application/json" },
         }
       );
       toast.success(data.message);
-      // Clear the form after successful submission
-      setFatherName("");
-      setEmail("");
-      setPhone("");
-      setFatherNic("");
-      setAddress("");
-      setStudentName("");
-      setDob("");
-      setGender("");
+      setFormData({
+        parentName: "",
+        email: "",
+        phone: "",
+        nic: "",
+        address: "",
+        studentName: "",
+        dob: "",
+        gender: ""
+      });
     } catch (error) {
-      // Display an error message if request fails
       toast.error(error.response?.data?.message || "An error occurred");
     }
   };
 
   return (
-    <div className="container form-component appointment-form">
-      <h2>Enrollment Form</h2>
-      <h4>Note: Please Before Register Then Fill the Enrollment Form</h4>
-      <form onSubmit={handleEnrollment}>
-        <div>
-          <input
-            type="text"
-            placeholder="Father Name"
-            value={fatherName}
-            onChange={(e) => setFatherName(e.target.value)}
-          />
-          <input
-            type="text"
-            placeholder="NIC"
-            value={fatherNic}
-            onChange={(e) => setFatherNic(e.target.value)}
-          />
-        </div>
-        <div>
-          <input
-            type="email"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          <input
-            type="text"
-            placeholder="Mobile Number"
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
-          />
-        </div>
-        <div>
-          <input
-            type="text"
-            placeholder="Address"
-            value={address}
-            onChange={(e) => setAddress(e.target.value)}
-          />
-          <input
-            type="text"
-            placeholder="Student Name"
-            value={studentName}
-            onChange={(e) => setStudentName(e.target.value)}
-          />
-        </div>
-        <div>
-          <select value={gender} onChange={(e) => setGender(e.target.value)}>
-            <option value="">Select Gender</option>
-            <option value="Male">Male</option>
-            <option value="Female">Female</option>
-          </select>
-          <input
-            type="date"
-            placeholder="Date of Birth"
-            value={dob}
-            onChange={(e) => setDob(e.target.value)}
-          />
-        </div>
+    <Container className="enrollment-container">
+      <Card className="enrollment-card">
+        <Card.Body>
+          <div className="enrollment-title">
+            <h2>Enrollment Form</h2>
+            <p>Please complete the form below to enroll your child</p>
+          </div>
 
-        <div
-          style={{
-            gap: "10px",
-            justifyContent: "flex-end",
-            flexDirection: "row",
-          }}
-        >
-          <p style={{ marginBottom: 0 }}>These are true Details</p>
-          <input
-            type="checkbox"
-            style={{ flex: "none", width: "25px" }}
-          />
-        </div>
+          <Form onSubmit={handleSubmit}>
+            <Row>
+              {/* Left Column */}
+              <Col md={6}>
+                <Form.Group className="mb-3">
+                  <Form.Label>Parent/Guardian Name</Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="parentName"
+                    value={formData.parentName}
+                    onChange={handleChange}
+                    required
+                    placeholder="Enter parent/guardian name"
+                  />
+                </Form.Group>
 
-        <button style={{ margin: "0 auto" }}>Submit Enrollment</button>
-      </form>
-    </div>
+                <Form.Group className="mb-3">
+                  <Form.Label>NIC</Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="nic"
+                    value={formData.nic}
+                    onChange={handleChange}
+                    required
+                    placeholder="Enter NIC number"
+                  />
+                </Form.Group>
+
+                <Form.Group className="mb-3">
+                  <Form.Label>Email</Form.Label>
+                  <Form.Control
+                    type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    required
+                    placeholder="Enter email address"
+                  />
+                </Form.Group>
+
+                <Form.Group className="mb-3">
+                  <Form.Label>Phone Number</Form.Label>
+                  <Form.Control
+                    type="tel"
+                    name="phone"
+                    value={formData.phone}
+                    onChange={handleChange}
+                    required
+                    placeholder="Enter phone number"
+                  />
+                </Form.Group>
+              </Col>
+
+              {/* Right Column */}
+              <Col md={6}>
+                <Form.Group className="mb-3">
+                  <Form.Label>Child's Name</Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="studentName"
+                    value={formData.studentName}
+                    onChange={handleChange}
+                    required
+                    placeholder="Enter child's name"
+                  />
+                </Form.Group>
+
+                <Form.Group className="mb-3">
+                  <Form.Label>Gender</Form.Label>
+                  <Form.Select
+                    name="gender"
+                    value={formData.gender}
+                    onChange={handleChange}
+                    required
+                  >
+                    <option value="">Select gender</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                  </Form.Select>
+                </Form.Group>
+
+                <Form.Group className="mb-3">
+                  <Form.Label>Date of Birth</Form.Label>
+                  <Form.Control
+                    type="date"
+                    name="dob"
+                    value={formData.dob}
+                    onChange={handleChange}
+                    required
+                  />
+                </Form.Group>
+
+                <Form.Group className="mb-3">
+                  <Form.Label>Address</Form.Label>
+                  <Form.Control
+                    as="textarea"
+                    rows={3}
+                    name="address"
+                    value={formData.address}
+                    onChange={handleChange}
+                    required
+                    placeholder="Enter residential address"
+                  />
+                </Form.Group>
+              </Col>
+            </Row>
+
+            <Form.Group className="mb-4 mt-2">
+              <Form.Check
+                type="checkbox"
+                label="I confirm that all the provided information is correct"
+                required
+              />
+            </Form.Group>
+
+            <Button 
+              variant="primary" 
+              type="submit" 
+              className="w-100"
+            >
+              <span>Submit Enrollment</span>
+            </Button>
+          </Form>
+        </Card.Body>
+      </Card>
+    </Container>
   );
 };
 

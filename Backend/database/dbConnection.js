@@ -1,13 +1,13 @@
 import mongoose from "mongoose";
 
-export const dbConnection = () =>{
-    mongoose.connect(process.env.MONGO_URI,{
-        dbName: "PSMS"
-    }).then(()=>{
-        console.log("DB is Connected")
-    }).catch((err=>{
-        console.log("DB is not Connected")
-    }))
-}
+export const dbConnection = async () => {
+    try {
+        const conn = await mongoose.connect(process.env.MONGO_URI);
+        console.log(`MongoDB Connected: ${conn.connection.host}`);
+    } catch (error) {
+        console.error(`Error: ${error.message}`);
+        process.exit(1);
+    }
+};
 
 //mongodb+srv://vpartheepan:school@cluster0.fwli1.mongodb.net/?retryWrites=true

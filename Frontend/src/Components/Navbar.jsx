@@ -1,52 +1,74 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import {Context} from "../main";
+import { Context } from "../main";
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import { Navbar, Container, Nav, Button } from 'react-bootstrap';
 import './Navbar.css';
 
-const Navbar = () => {
-
-    const [show, setShow] = useState(false);
-    const { isAuthenticated, setAuthenticated} = useContext(Context);
-    
+const NavbarComponent = () => {
+    const { isAuthenticated, setIsAuthenticated } = useContext(Context);
     const navigateTo = useNavigate();
 
-    const handleLogout = async () =>{
-        await axios
-            .get("http://localhost:4000/api/v1/user/parent/logout", {
+    const handleLogout = async () => {
+        try {
+            const res = await axios.get("http://localhost:4000/api/v1/user/parent/logout", {
                 withCredentials: true,
-                })
-                .then(res=>{
-                    toast.success(res.data.message);
-                    setAuthenticated(false);
-                })
-                .catch(err=>{
-                    toast.error(err.response.data.message);
-                });
-        };
-        const gotoLogin = ()=>{
-            navigateTo("/login");
+            });
+            
+            setIsAuthenticated(false);
+            toast.success(res.data.message);
+            navigateTo('/login');
+        } catch (err) {
+            toast.error(err.response.data.message);
         }
+    };
 
+    return (
+        <Navbar expand="lg" className="sunshine-navbar" fixed="top">
+            <Container>
+                <Navbar.Brand as={Link} to="/" className="brand-container">
+                    <img
+                        src="/Teacher/LOGO.png"
+                        alt="SUN SHINE PRE SCHOOL"
+                        className="navbar-logo"
+                    />
+                    <div className="brand-text">
+                        <span className="brand-name">SUNSHINE</span>
+                        <span className="brand-subtitle">PRE SCHOOL</span>
+                    </div>
+                </Navbar.Brand>
 
-  return (
-    <nav className='container'>
-       <div className="logo">
-       <img src="/Images/logo.png" alt="logo" className="logo-img" />
-       </div>
-       <div className={show ? "navlinks showmenu": "navLinks"}>
-            <div className="links">
-                <Link to={"/"} >Home</Link>
-                <Link to={"/aboutus"} >About Us</Link>
-                <Link to={"/gallery"} >Gallery</Link>
-                <Link to={"/enrollment"} >Enrollment</Link>
-              
-            </div>
-            {isAuthenticated ? (<button className='logoutBtn btn' onClick={handleLogout}>LOGOUT</button>):(<button className='loginBtn btn' onClick={gotoLogin}>LOGIN</button>)}
-        </div>
-    </nav>
-  )
-}
+                <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
+                    <Nav className="align-items-center">
+                        <Nav.Link as={Link} to="/">Home</Nav.Link>
+                        <Nav.Link as={Link} to="/aboutus">About Us</Nav.Link>
+                        <Nav.Link as={Link} to="/gallery">Gallery</Nav.Link>
+                        <Nav.Link as={Link} to="/enrollment">Enrollment</Nav.Link>
+                        
+                        {isAuthenticated ? (
+                            <Button 
+                                variant="sunshine-secondary"
+                                onClick={handleLogout}
+                                className="ms-lg-3"
+                            >
+                                Logout
+                            </Button>
+                        ) : (
+                            <Button 
+                                variant="sunshine-primary"
+                                onClick={() => navigateTo("/login")}
+                                className="ms-lg-3"
+                            >
+                                <span>Login</span>
+                            </Button>
+                        )}
+                    </Nav>
+                </Navbar.Collapse>
+            </Container>
+        </Navbar>
+    );
+};
 
-export default Navbar
+export default NavbarComponent; 

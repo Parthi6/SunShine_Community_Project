@@ -1,10 +1,10 @@
-import {catchAsyncErrors} from "./catchAsyncErrors.js";
-import ErrorHandler from "./errorMiddleware.js";
 import { User } from "../models/userSchema.js";
+import ErrorHandler from "../utils/ErrorHandler.js";
+import { catchAsyncError } from "./catchAsyncError.js";
 import jwt from "jsonwebtoken";
 
 // Admin Authentication
-export const isAdminAuthenticated = catchAsyncErrors(async (req, res, next) => {
+export const isAdminAuthenticated = catchAsyncError(async (req, res, next) => {
     const token = req.cookies.adminToken;  // Check for adminToken in the cookies
     if (!token) {
         return next(new ErrorHandler("Admin is not Authenticated!", 400));
@@ -20,7 +20,7 @@ export const isAdminAuthenticated = catchAsyncErrors(async (req, res, next) => {
 });
 
 // Patient Authentication (for Parent role)
-// export const isParentAuthenticated = catchAsyncErrors(async (req, res, next) => {
+// export const isParentAuthenticated = catchAsyncError(async (req, res, next) => {
 //     const token = req.cookies.parentToken; // Using 'parentToken' for parents
 //     if (!token) {
 //         return next(new ErrorHandler("Parent is not Authenticated!", 400)); // Correct message for Parent
@@ -32,3 +32,31 @@ export const isAdminAuthenticated = catchAsyncErrors(async (req, res, next) => {
 //     }
 //     next();
 // });
+
+export const isAuthenticated = catchAsyncError(async (req, res, next) => {
+    const { token } = req.cookies;
+
+    if (!token) {
+        return next(new ErrorHandler("Please login to access this resource", 401));
+    }
+
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+    req.user = await User.findById(decoded.id);
+
+    next();
+});
+
+export const authorizeRoles = (...roles) => {
+    return (req, res, next) => {
+        if (!roles.includes(req.user.role)) {
+            return next(
+                new ErrorHandler(
+                    `Role: ${req.user.role} is not allowed to access this resource`,
+                    403
+                )
+            );
+        }
+        next();
+    };
+};

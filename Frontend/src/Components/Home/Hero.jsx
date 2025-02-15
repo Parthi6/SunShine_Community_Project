@@ -1,34 +1,54 @@
-import React, { useState, useEffect } from 'react';
-import './hero.css'; // Import the CSS file
+import React from 'react';
+import { Container, Row, Col, Button } from 'react-bootstrap';
+import './Hero.css';
 
 const Hero = () => {
-  const [currentIndex, setCurrentIndex] = useState(0);
-
-  const slides = [
-    '/Images/hero1.jpg',
-    '/Images/hero2.jpg',
-    '/Images/hero3.jpeg',
-  ];
-
-  const nextSlide = () => {
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % slides.length);
-  };
-
-  const prevSlide = () => {
-    setCurrentIndex((prevIndex) => (prevIndex - 1 + slides.length) % slides.length);
-  };
-
-  useEffect(() => {
-    const interval = setInterval(nextSlide, 3000); // Change slide every 3 seconds
-    return () => clearInterval(interval); // Cleanup on unmount
-  }, []);
-
   return (
-    <div className="hero-container">
-      <img src={slides[currentIndex]} alt="Hero Slide" className="hero-slide" />
-      {/* Use symbols for navigation */}
-      <button onClick={prevSlide} className="prev-button">&lt;</button> {/* < symbol */}
-      <button onClick={nextSlide} className="next-button">&gt;</button> {/* > symbol */}
+    <div className="hero-section">
+      <div className="hero-background"></div>
+      <div className="sun-patterns">
+        {/* <div className="sun sun-1"></div> */}
+        <div className="sun sun-2"></div>
+        {/* <div className="sun sun-3"></div> */}
+        <div className="sun sun-4"></div>
+        <div className="sun sun-5"></div>
+      </div>
+      <Container>
+        <Row className="align-items-center hero-content">
+          <Col lg={6} className="hero-text">
+            <h1 className="hero-title">
+              <span className="welcome-text">Welcome to</span>
+              <div className="highlight-container">
+                <span className="highlight">SUNSHINE</span><br />
+                <span className="highlight">PRESCHOOL</span>
+              </div>
+            </h1>
+            <p className="hero-subtitle" style={{ marginLeft: '-20px', marginTop: '-5px' }}>
+              Nurturing Young Minds, Building Bright Futures
+            </p>
+            <div className="hero-buttons" style={{ marginLeft: '-5px', marginTop: '20px' }}>
+              <Button href="/enrollment">
+                Enroll Now
+              </Button>
+              <Button href="/aboutus">
+                Learn More
+              </Button>
+            </div>
+          </Col>
+          <Col lg={6} className="hero-image-container">
+            <div className="floating-shapes">
+              <div className="shape shape-1"></div>
+              <div className="shape shape-2"></div>
+              <div className="shape shape-3"></div>
+            </div>
+            <img 
+              src="/Teacher/Header_photo.png" 
+              alt="Sunshine Pre School" 
+              className="hero-header-image"
+            />
+          </Col>
+        </Row>
+      </Container>
     </div>
   );
 };
