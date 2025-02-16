@@ -5,33 +5,39 @@ const Facilities = () => {
   const facilitiesList = [
     { 
       title: "Spacious Classrooms", 
-      description: "Bright, airy, and designed for hands-on learning.", 
-      imageUrl: "/Images/F1.png"
+      description: "Bright, airy, and well-equipped spaces designed for interactive learning and discovery.", 
+      imageUrl: "/Images/F1.png",
+      color: "#FF6B6B"
     },
     { 
       title: "Outdoor Play Area", 
-      description: "A safe and fun environment for physical development.", 
-      imageUrl: "/Images/F2.png" 
+      description: "Safe and engaging playground where children develop physical skills and social bonds.", 
+      imageUrl: "/Images/F2.png",
+      color: "#4ECDC4"
     },
     { 
       title: "Art & Creativity", 
-      description: "Encouraging creativity through various mediums.", 
-      imageUrl: "/Images/F3.png" 
+      description: "Dedicated spaces for artistic expression, crafts, and creative development.", 
+      imageUrl: "/Images/F3.png",
+      color: "#FFD93D"
     },
     { 
       title: "Music and Dancing", 
-      description: "Fun ways to explore rhythm and physical movement.", 
-      imageUrl: "/Images/F4.png" 
+      description: "Joyful environment for exploring rhythm, movement, and musical expression.", 
+      imageUrl: "/Images/F4.png",
+      color: "#6C5CE7"
     },
     { 
       title: "Healthy Food", 
-      description: "Healthy meals to fuel your child's learning and growth.", 
-      imageUrl: "/Images/F5.png" 
+      description: "Nutritious and balanced meals prepared fresh daily in our hygienic kitchen.", 
+      imageUrl: "/Images/F5.png",
+      color: "#A8E6CF"
     },
     { 
       title: "Field Trips", 
-      description: "Exciting real-world learning experiences.", 
-      imageUrl: "/Images/F6.png" 
+      description: "Regular educational outings that connect learning with real-world experiences.", 
+      imageUrl: "/Images/F6.png",
+      color: "#FF8B94"
     }
   ];
 
@@ -40,11 +46,15 @@ const Facilities = () => {
       <h2>Our Preschool Facilities</h2>
       <div className='facilities-list'>
         {facilitiesList.map((facility, index) => (
-          <div key={index} className='facility-card'>
+          <div 
+            key={index} 
+            className='facility-card'
+            style={{ '--hover-color': facility.color }}
+          >
             <div className='facility-icon'>
               <img src={facility.imageUrl} alt={facility.title} />
             </div>
-            <div className='facility-text'>
+            <div className='facility-content'>
               <h3>{facility.title}</h3>
               <p>{facility.description}</p>
             </div>
