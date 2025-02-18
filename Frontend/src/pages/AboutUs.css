@@ -1,95 +1,175 @@
 .about-us-wrapper {
     min-height: 100vh;
     background-color: #fff;
+    position: relative;
+    overflow-x: hidden;
+    margin-top: -70px; /* Add negative margin to remove the gap */
 }
 
-/* Welcome text section with stylish gradient effect */
+/* Welcome text section */
 .welcome-section {
+    background: linear-gradient(-45deg, 
+        rgba(255, 107, 107, 0.85), 
+        rgba(78, 205, 196, 0.85), 
+        rgba(255, 107, 107, 0.85), 
+        rgba(78, 205, 196, 0.85)
+    ) !important;
+    background-size: 400% 400% !important;
+    color: #fff;
     text-align: center;
-    padding: 20px 0 40px;
-    background: transparent;
+    padding: 4rem 2rem;
     position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 300px; /* Increased height */
+    animation: gradientBG 15s ease infinite;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
 }
 
 .welcome-title {
-    font-size: 4.5rem;
+    font-size: 5.5rem;
+    margin-bottom: 2rem;
     font-weight: 900;
-    color: white;
-    margin-bottom: 1rem;
-    letter-spacing: 3px;
+    font-family: 'Montserrat', sans-serif;
+    color: #ffffff !important;
+    text-shadow: 3px 3px 6px rgba(0,0,0,0.3);
+    letter-spacing: 4px;
+    animation: fadeIn 2s ease-out;
     text-transform: uppercase;
+    line-height: 1.2;
+    max-width: 1200px;
+    padding: 0 20px;
     position: relative;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-    background: linear-gradient(45deg, #FF6B6B, #4ECDC4);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    position: relative;
-    display: inline-block;
-    background: linear-gradient(
-        90deg,
-        #FF6B6B 0%,
-        #4ECDC4 25%,
-        #FF6B6B 50%,
-        #4ECDC4 75%,
-        #FF6B6B 100%
-    );
-    background-size: 200% auto;
-    -webkit-background-clip: text;
-    background-clip: text;
-    animation: shimmer 25s linear infinite;
 }
 
 .welcome-title::after {
-    content: attr(data-text);
-    position: absolute;
-    left: 0;
-    top: 0;
-    z-index: -1;
-    background: linear-gradient(45deg, #FF6B6B 30%, #4ECDC4 70%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    filter: blur(15px);
-    opacity: 0.5;
-}
-
-.welcome-subtitle {
-    font-size: 1.8rem;
-    font-weight: 600;
-    background: linear-gradient(45deg, #4ECDC4, #FF6B6B);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    letter-spacing: 2px;
-    max-width: 800px;
-    margin: 0 auto 40px;
-    line-height: 1.6;
-    animation: fadeInUp 0.8s ease, shimmer 120s linear infinite;
-    animation-delay: 0.2s, 1.5s;
-    text-transform: uppercase;
-    position: relative;
-}
-
-.welcome-subtitle::after {
     content: '';
     position: absolute;
     bottom: -10px;
     left: 50%;
     transform: translateX(-50%);
-    width: 150px;
-    height: 3px;
-    background: linear-gradient(45deg, #FF6B6B, #4ECDC4);
+    width: 100px;
+    height: 4px;
+    background: linear-gradient(90deg, #ff6b6b, #4ecdc4);
     border-radius: 2px;
 }
 
-/* Add shimmer animation */
-@keyframes shimmer {
+.welcome-subtitle {
+    font-size: 2.2rem;
+    margin-top: 1.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 3rem;
+    color: #fff !important;
+    font-weight: 600;
+    font-family: 'Montserrat', sans-serif;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+    letter-spacing: 2.5px;
+    animation: fadeIn 2s ease-out 0.5s backwards;
+    position: relative;
+}
+
+.welcome-subtitle span {
+    position: relative;
+    padding: 0.5rem 1.5rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 30px;
+    backdrop-filter: blur(5px);
+}
+
+/* Enhance the dot separator */
+.welcome-subtitle span:first-child::after {
+    content: '•';
+    position: absolute;
+    right: -2rem;
+    color: #fff;
+    font-size: 1.5rem;
+    opacity: 0.8;
+}
+
+/* Add subtle hover effects */
+.welcome-section:hover .welcome-title {
+    text-shadow: 4px 4px 8px rgba(0,0,0,0.3);
+    transition: all 0.3s ease;
+}
+
+.welcome-section:hover .welcome-subtitle span {
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateY(-2px);
+    transition: all 0.3s ease;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1200px) {
+    .welcome-title {
+        font-size: 4.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .welcome-section {
+        padding: 3rem 1rem;
+        height: 300px;
+    }
+
+    .welcome-title {
+        font-size: 3.2rem;
+        letter-spacing: 3px;
+        margin-bottom: 1.5rem;
+    }
+    
+    .welcome-subtitle {
+        font-size: 1.6rem;
+        flex-direction: column;
+        gap: 1rem;
+        letter-spacing: 2px;
+    }
+
+    .welcome-subtitle span {
+        padding: 0.4rem 1rem;
+    }
+    
+    .welcome-subtitle span:first-child::after {
+        display: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .welcome-title {
+        font-size: 2.8rem;
+    }
+    
+    .welcome-subtitle {
+        font-size: 1.4rem;
+    }
+}
+
+/* New smooth gradient animation */
+@keyframes gradientBG {
     0% {
-        background-position: -200% center;
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
     }
     100% {
-        background-position: 200% center;
+        background-position: 0% 50%;
+    }
+}
+
+/* Smooth fade in animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
     }
 }
 
@@ -110,6 +190,7 @@
     object-fit: cover;
     position: relative;
     z-index: 1;
+    margin-top:10px;
 }
 
 @keyframes fadeInDown {

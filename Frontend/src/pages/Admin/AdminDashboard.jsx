@@ -12,7 +12,7 @@ const AdminDashboard = () => {
         students: 0,
         messages: 0
     });
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
     useEffect(() => {
         const fetchAdminData = async () => {
@@ -32,7 +32,7 @@ const AdminDashboard = () => {
                 }
             } catch (error) {
                 console.error('Dashboard error:', error);
-                navigate('/admin/login');
+    navigate('/admin/login');
             } finally {
                 setLoading(false);
             }
@@ -45,7 +45,7 @@ const AdminDashboard = () => {
         return <div>Loading...</div>;
     }
 
-    return (
+  return (
         <AdminLayout>
             <div className="dashboard-container">
                 <div className="dashboard-content">
@@ -75,7 +75,7 @@ const AdminDashboard = () => {
                 </div>
             </div>
         </AdminLayout>
-    );
+  );
 };
 
 export default AdminDashboard; 

@@ -33,6 +33,12 @@ export const createStudent = catchAsyncErrors(async (req, res, next) => {
     try {
         const studentData = { ...req.body };
 
+        // Parse medical info if it's a string
+        if (typeof studentData.medicalInfo === 'string') {
+            studentData.medicalInfo = JSON.parse(studentData.medicalInfo);
+        }
+
+        // Handle photo upload
         if (req.files && req.files.photo) {
             const result = await cloudinary.v2.uploader.upload(
                 req.files.photo.tempFilePath,
@@ -51,6 +57,8 @@ export const createStudent = catchAsyncErrors(async (req, res, next) => {
                 public_id: result.public_id,
                 url: result.secure_url,
             };
+        } else {
+            return next(new ErrorHandler('Please upload a student photo', 400));
         }
 
         const student = await Student.create(studentData);
