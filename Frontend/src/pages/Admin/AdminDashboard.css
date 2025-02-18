@@ -1,0 +1,140 @@
+.dashboard-container {
+    min-height: 100vh;
+    background: #f8f9fa;
+    padding: 0;
+    margin-top: 0;
+    position: relative;
+}
+
+.dashboard-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+}
+
+/* Admin Layout Styles */
+.admin-header {
+    background: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    margin: 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+}
+
+.admin-header-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+}
+
+.admin-title {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: gray;
+    letter-spacing: 2px;
+}
+
+.logout-button {
+    margin-left: auto;
+    padding: 10px 35px;
+    color: #fff;
+    font-weight: 700;
+    border: none;
+    border-radius: 8px;
+    font-size: 18px;
+    background: linear-gradient(140deg, #ff6b6b, #4ecdc4);
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+.welcome-section {
+    background: linear-gradient(140deg, #ff6b6b, #4ecdc4);
+    color: white;
+    padding: 2rem;
+    margin: 0;
+    text-align: center;
+    margin-top: 60px; /* Height of header */
+}
+
+.welcome-title {
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    letter-spacing: 2px;
+}
+
+.welcome-info {
+    opacity: 0.9;
+    font-size: 1rem;
+    letter-spacing: 1px;
+    margin: 0.25rem 0;
+}
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    padding: 2rem;
+    background: #f8f9fa;
+}
+
+.stat-card {
+    background: white;
+    border-radius: 10px;
+    padding: 2rem;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.stat-number {
+    font-size: 3rem;
+    font-weight: bold;
+    color: #ff6b6b;
+    margin: 1rem 0;
+}
+
+.stat-label {
+    color: #ff6b6b;
+    font-size: 1.5rem;
+    letter-spacing: 2px;
+    margin-bottom: 0.5rem;
+}
+
+.stat-sublabel {
+    color: gray;
+    font-size: 1rem;
+    letter-spacing: 1px;
+}
+
+@media (max-width: 768px) {
+    .admin-header-content {
+        padding: 1rem;
+    }
+    
+    .welcome-section {
+        padding: 1.5rem 1rem;
+    }
+    
+    .dashboard-grid {
+        padding: 1rem;
+        gap: 1rem;
+    }
+    
+    .stat-number {
+        font-size: 2.5rem;
+    }
+    
+    .stat-label {
+        font-size: 1.25rem;
+    }
+} 

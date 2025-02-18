@@ -8,7 +8,11 @@ import {
     getAllTeachers, 
     getUserDeatils, 
     logoutAdmin,
-    addNewAdmin 
+    addNewAdmin,
+    getAllUsers, 
+    getSingleUser, 
+    updateUserRole, 
+    deleteUser 
 } from "../controllers/userController.js";
 import { isAdminAuthenticated, isAuthenticated } from "../middlewares/auth.js";
 
@@ -24,6 +28,10 @@ router.get("/parent/me", isAuthenticated, getMyProfile);
 router.post("/admin/addnew", addNewAdmin);
 router.get("/admin/me", isAdminAuthenticated, getUserDeatils);
 router.get("/admin/logout", isAdminAuthenticated, logoutAdmin);
+router.get("/admin/users", isAdminAuthenticated, getAllUsers);
+router.get("/admin/user/:id", isAdminAuthenticated, getSingleUser);
+router.put("/admin/user/:id", isAdminAuthenticated, updateUserRole);
+router.delete("/admin/user/:id", isAdminAuthenticated, deleteUser);
 
 // Teacher routes
 router.get("/teachers", getAllTeachers);
