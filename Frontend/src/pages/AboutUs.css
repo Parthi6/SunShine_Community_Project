@@ -832,3 +832,62 @@
 .welcome-subtitle:hover {
     animation-play-state: paused;
   }
+
+/* Contact Form Button Styling */
+.contact-form-container .btn-primary {
+    background: linear-gradient(45deg, #FF6B6B, #4ECDC4);
+    border: none;
+    padding: 12px 25px;
+    font-weight: 600;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    position: relative;
+    z-index: 1;
+}
+
+/* Create pseudo-element for hover effect */
+.contact-form-container .btn-primary::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, #4ECDC4, #FF6B6B);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: -1;
+}
+
+.contact-form-container .btn-primary:hover::before {
+    opacity: 1;
+}
+
+/* Button text styles */
+.contact-form-container .btn-primary span {
+    position: relative;
+    z-index: 2;
+    color: white;
+}
+
+/* Override Bootstrap's default button styles */
+.contact-form-container .btn-primary,
+.contact-form-container .btn-primary:hover,
+.contact-form-container .btn-primary:focus,
+.contact-form-container .btn-primary:active,
+.contact-form-container .btn-primary:active:focus {
+    color: white !important;
+    background-image: linear-gradient(45deg, #FF6B6B, #4ECDC4);
+    border: none;
+    outline: none;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.contact-form-container .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+.contact-form-container .btn-primary:active {
+    transform: translateY(0);
+}

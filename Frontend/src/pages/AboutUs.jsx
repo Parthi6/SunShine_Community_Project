@@ -343,7 +343,7 @@ const AboutUs = () => {
                                                 type="submit" 
                                                 className="w-100"
                                             >
-                                                Send Message
+                                                <span>Send Message</span>
                                             </Button>
                                         </Form>
                                     </Card.Body>

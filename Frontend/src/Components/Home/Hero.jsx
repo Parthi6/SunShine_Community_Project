@@ -17,7 +17,7 @@ const Hero = () => {
         <Row className="align-items-center hero-content">
           <Col lg={6} className="hero-text">
             <h1 className="hero-title">
-              <span className="welcome-text">Discover</span>
+              <span className="welcome-text">WELCOME TO</  span>
               <div className="highlight-container">
                 <span className="highlight">SUNSHINE</span><br />
                 <span className="highlight">PRESCHOOL</span>
@@ -26,12 +26,12 @@ const Hero = () => {
             <p className="hero-subtitle" style={{ marginLeft: '-20px', marginTop: '-5px' }}>
               Nurturing Young Minds, Building Bright Futures
             </p>
-            <div className="hero-buttons" style={{ marginLeft: '-5px', marginTop: '20px' }}>
-              <Button href="/enrollment">
-                Enroll Now
+            <div className="hero-buttons">
+              <Button href="/enrollment" className="btn">
+                <span>Enroll Now</span>
               </Button>
-              <Button href="/aboutus">
-                Learn More
+              <Button href="/aboutus" className="btn">
+                <span>Learn More</span>
               </Button>
             </div>
           </Col>

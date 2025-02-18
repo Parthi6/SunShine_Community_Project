@@ -1,19 +1,19 @@
 {
-  "name": "your-project-name",
+  "name": "sunshine-preschool",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "start": "node backend/server.js",
-    "backend": "cd backend && npm run server",
-    "frontend": "cd frontend && npm run dev",
-    "dev": "concurrently \"npm run backend\" \"npm run frontend\""
+    "server": "nodemon backend/server.js",
+    "client": "cd frontend && npm run dev",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "dependencies": {
-    "concurrently": "^9.1.2",
+  "devDependencies": {
+    "concurrently": "^8.2.2",
     "nodemon": "^3.1.9"
   }
 }

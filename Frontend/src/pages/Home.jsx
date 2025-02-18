@@ -1,8 +1,8 @@
 import Hero from '../components/Home/Hero';
 import Biography from '../components/Home/Biography';
-import Messages from '../components/Home/Messages';
-import Facilities from '../components/Home/Facilities';
-import Footer from '../components/Footer/Footer';
+import Messages from '../Components/Home/Messages';
+import Facilities from '../Components/Home/Facilities';
+import Footer from '../Components/Footer/Footer';
 import { Container, Row, Col } from 'react-bootstrap';
 import { FaGraduationCap, FaHeart, FaStar, FaUsers } from 'react-icons/fa';
 import './Home.css';  // Import CSS for wave background and other styles

@@ -2,30 +2,29 @@ import mongoose from "mongoose";
 import validator from "validator";
 
 const messageSchema = new mongoose.Schema({
-    firstName: {
+    name: {
         type: String,
-        required: true,
-        minLength: [3, "First name must be at least 5 characters"],
-    },
-    lastName: {
-        type: String,
-        required: true,
-        minLength: [3, "Last name must be at least 5 characters"],
+        required: [true, "Please enter your name"],
+        trim: true
     },
     email: {
         type: String,
-        required: true,
-        validate: [validator.isEmail, "Please enter a valid email"],
-    },
-    phone: {
-        type: String,
-        required: true,
-        minLength: [10, "Provide a correct phone number"],
+        required: [true, "Please enter your email"],
+        trim: true
     },
     message: {
         type: String,
-        required: true,
-        minLength: [10, "Message must have at least 100 characters"],
+        required: [true, "Please enter your message"],
+        trim: true
+    },
+    status: {
+        type: String,
+        enum: ["unread", "read"],
+        default: "unread"
+    },
+    createdAt: {
+        type: Date,
+        default: Date.now
     }
 });
 
