@@ -59,13 +59,24 @@ const Students = () => {
             const { data } = await axios.post(
                 'http://localhost:4000/api/v1/students',
                 studentData,
-                { withCredentials: true }
+                { 
+                    withCredentials: true,
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                    },
+                }
             );
-            setStudents([...students, data.student]);
+
+            setStudents(prevStudents => [...prevStudents, data.student]);
             setShowAddForm(false);
             calculateAnalytics([...students, data.student]);
+            toast.success('Student added successfully');
         } catch (error) {
             console.error('Error adding student:', error);
+            toast.error(
+                error.response?.data?.message || 
+                'Error adding student. Please try again.'
+            );
         }
     };
 

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import './AddStudentForm.css'; // We can reuse the styles
+import './EditStudentForm.css';
 import { toast } from 'react-hot-toast';
 
 const EditStudentForm = ({ student, onSubmit, onClose }) => {
@@ -7,20 +7,20 @@ const EditStudentForm = ({ student, onSubmit, onClose }) => {
         name: student.name,
         dateOfBirth: new Date(student.dateOfBirth).toISOString().split('T')[0],
         gender: student.gender,
+        class: student.class,
+        status: student.status,
         parentName: student.parentName,
         parentEmail: student.parentEmail,
         parentPhone: student.parentPhone,
         address: student.address,
-        class: student.class,
-        status: student.status,
         medicalInfo: {
-            allergies: student.medicalInfo.allergies.join(', '),
-            medications: student.medicalInfo.medications.join(', '),
-            specialNeeds: student.medicalInfo.specialNeeds || ''
+            allergies: student.medicalInfo?.allergies || [],
+            medications: student.medicalInfo?.medications || [],
+            specialNeeds: student.medicalInfo?.specialNeeds || ''
         }
     });
     const [photo, setPhoto] = useState(null);
-    const [previewUrl, setPreviewUrl] = useState(student.photo.url);
+    const [photoPreview, setPhotoPreview] = useState(student.photo.url);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -30,7 +30,9 @@ const EditStudentForm = ({ student, onSubmit, onClose }) => {
                 ...prev,
                 medicalInfo: {
                     ...prev.medicalInfo,
-                    [field]: value
+                    [field]: field === 'allergies' || field === 'medications' 
+                        ? value.split(',').map(item => item.trim())
+                        : value
                 }
             }));
         } else {
@@ -44,129 +46,233 @@ const EditStudentForm = ({ student, onSubmit, onClose }) => {
     const handlePhotoChange = (e) => {
         const file = e.target.files[0];
         if (file) {
+            if (file.size > 1024 * 1024) { // 1MB limit
+                toast.error('Image size should be less than 1MB');
+                return;
+            }
+
+            if (!file.type.startsWith('image/')) {
+                toast.error('Please upload an image file');
+                return;
+            }
+
             setPhoto(file);
-            setPreviewUrl(URL.createObjectURL(file));
+            const fileReader = new FileReader();
+            fileReader.onload = () => {
+                setPhotoPreview(fileReader.result);
+            };
+            fileReader.readAsDataURL(file);
         }
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        
         try {
-            const formDataToSend = new FormData();
-            
-            // Append all text data
+            const submitData = new FormData();
+
+            // Append all form fields
             Object.keys(formData).forEach(key => {
                 if (key === 'medicalInfo') {
-                    formDataToSend.append(key, JSON.stringify({
-                        ...formData[key],
-                        allergies: formData[key].allergies.split(',').map(item => item.trim()),
-                        medications: formData[key].medications.split(',').map(item => item.trim())
-                    }));
+                    submitData.append(key, JSON.stringify(formData[key]));
                 } else {
-                    formDataToSend.append(key, formData[key]);
+                    submitData.append(key, formData[key]);
                 }
             });
 
             // Append photo if changed
             if (photo) {
-                formDataToSend.append('photo', photo);
+                submitData.append('photo', photo);
             }
 
-            await onSubmit(student._id, formDataToSend);
+            await onSubmit(student._id, submitData);
+            toast.success('Student updated successfully');
             onClose();
         } catch (error) {
             console.error('Form submission error:', error);
-            toast.error('Error updating student. Please try again.');
+            toast.error(error.response?.data?.message || 'Error updating student');
         }
     };
 
     return (
-        <div className="form-overlay">
-            <div className="form-container">
-                <div className="form-header">
+        <div className="modal-overlay">
+            <div className="edit-student-modal">
+                <div className="modal-header">
                     <h2>Edit Student</h2>
                     <button className="close-btn" onClick={onClose}>&times;</button>
                 </div>
-                
-                <form onSubmit={handleSubmit} className="add-student-form">
-                    <div className="form-grid">
-                        <div className="form-group">
-                            <label>Full Name</label>
-                            <input
-                                type="text"
-                                name="name"
-                                value={formData.name}
-                                onChange={handleChange}
-                                required
-                            />
+
+                <form onSubmit={handleSubmit} className="edit-student-form">
+                    <div className="form-sections">
+                        {/* Student Photo Section */}
+                        <div className="form-section">
+                            <h3 className="section-title">Student Photo</h3>
+                            <div className="photo-upload-container">
+                                <div className="photo-preview">
+                                    <img 
+                                        src={photoPreview} 
+                                        alt="Student" 
+                                        className="preview-image"
+                                    />
+                                </div>
+                                <div className="photo-input-container">
+                                    <label htmlFor="photo-upload" className="photo-upload-label">
+                                        Choose New Photo
+                                    </label>
+                                    <input
+                                        id="photo-upload"
+                                        type="file"
+                                        accept="image/*"
+                                        onChange={handlePhotoChange}
+                                        className="photo-input"
+                                    />
+                                    <p className="photo-help-text">
+                                        Maximum size: 1MB. Supported formats: JPG, PNG
+                                    </p>
+                                </div>
+                            </div>
                         </div>
 
-                        <div className="form-group">
-                            <label>Date of Birth</label>
-                            <input
-                                type="date"
-                                name="dateOfBirth"
-                                value={formData.dateOfBirth}
-                                onChange={handleChange}
-                                required
-                            />
+                        {/* Basic Information Section */}
+                        <div className="form-section">
+                            <h3 className="section-title">Basic Information</h3>
+                            <div className="form-grid">
+                                <div className="form-group">
+                                    <label>Full Name</label>
+                                    <input
+                                        type="text"
+                                        name="name"
+                                        value={formData.name}
+                                        onChange={handleChange}
+                                        required
+                                    />
+                                </div>
+
+                                <div className="form-group">
+                                    <label>Date of Birth</label>
+                                    <input
+                                        type="date"
+                                        name="dateOfBirth"
+                                        value={formData.dateOfBirth}
+                                        onChange={handleChange}
+                                        required
+                                    />
+                                </div>
+
+                                <div className="form-group">
+                                    <label>Gender</label>
+                                    <select name="gender" value={formData.gender} onChange={handleChange}>
+                                        <option value="Female">Female</option>
+                                        <option value="Male">Male</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                </div>
+
+                                <div className="form-group">
+                                    <label>Class</label>
+                                    <select name="class" value={formData.class} onChange={handleChange}>
+                                        <option value="Toddler">Toddler</option>
+                                        <option value="PreK-1">PreK-1</option>
+                                        <option value="PreK-2">PreK-2</option>
+                                        <option value="Kindergarten">Kindergarten</option>
+                                    </select>
+                                </div>
+
+                                <div className="form-group">
+                                    <label>Status</label>
+                                    <select name="status" value={formData.status} onChange={handleChange}>
+                                        <option value="Active">Active</option>
+                                        <option value="Inactive">Inactive</option>
+                                        <option value="Graduated">Graduated</option>
+                                    </select>
+                                </div>
+                            </div>
                         </div>
 
-                        <div className="form-group">
-                            <label>Gender</label>
-                            <select
-                                name="gender"
-                                value={formData.gender}
-                                onChange={handleChange}
-                                required
-                            >
-                                <option value="">Select Gender</option>
-                                <option value="Male">Male</option>
-                                <option value="Female">Female</option>
-                                <option value="Other">Other</option>
-                            </select>
+                        {/* Parent Information Section */}
+                        <div className="form-section">
+                            <h3 className="section-title">Parent Information</h3>
+                            <div className="form-grid">
+                                <div className="form-group">
+                                    <label>Parent Name</label>
+                                    <input
+                                        type="text"
+                                        name="parentName"
+                                        value={formData.parentName}
+                                        onChange={handleChange}
+                                        required
+                                    />
+                                </div>
+
+                                <div className="form-group">
+                                    <label>Parent Email</label>
+                                    <input
+                                        type="email"
+                                        name="parentEmail"
+                                        value={formData.parentEmail}
+                                        onChange={handleChange}
+                                        required
+                                    />
+                                </div>
+
+                                <div className="form-group">
+                                    <label>Parent Phone</label>
+                                    <input
+                                        type="tel"
+                                        name="parentPhone"
+                                        value={formData.parentPhone}
+                                        onChange={handleChange}
+                                        required
+                                    />
+                                </div>
+
+                                <div className="form-group full-width">
+                                    <label>Address</label>
+                                    <textarea
+                                        name="address"
+                                        value={formData.address}
+                                        onChange={handleChange}
+                                        required
+                                    />
+                                </div>
+                            </div>
                         </div>
 
-                        <div className="form-group">
-                            <label>Class</label>
-                            <select
-                                name="class"
-                                value={formData.class}
-                                onChange={handleChange}
-                                required
-                            >
-                                <option value="">Select Class</option>
-                                <option value="Toddler">Toddler</option>
-                                <option value="PreK-1">PreK-1</option>
-                                <option value="PreK-2">PreK-2</option>
-                                <option value="Kindergarten">Kindergarten</option>
-                            </select>
-                        </div>
+                        {/* Medical Information Section */}
+                        <div className="form-section">
+                            <h3 className="section-title">Medical Information</h3>
+                            <div className="form-grid">
+                                <div className="form-group">
+                                    <label>Allergies</label>
+                                    <input
+                                        type="text"
+                                        name="medicalInfo.allergies"
+                                        value={formData.medicalInfo.allergies.join(', ')}
+                                        onChange={handleChange}
+                                        placeholder="Separate with commas"
+                                    />
+                                </div>
 
-                        <div className="form-group">
-                            <label>Status</label>
-                            <select
-                                name="status"
-                                value={formData.status}
-                                onChange={handleChange}
-                                required
-                            >
-                                <option value="Active">Active</option>
-                                <option value="Inactive">Inactive</option>
-                                <option value="Graduated">Graduated</option>
-                            </select>
-                        </div>
+                                <div className="form-group">
+                                    <label>Medications</label>
+                                    <input
+                                        type="text"
+                                        name="medicalInfo.medications"
+                                        value={formData.medicalInfo.medications.join(', ')}
+                                        onChange={handleChange}
+                                        placeholder="Separate with commas"
+                                    />
+                                </div>
 
-                        <div className="form-group photo-upload">
-                            <label>Student Photo</label>
-                            <div className="photo-preview">
-                                <img src={previewUrl} alt="Preview" />
-                                <input
-                                    type="file"
-                                    accept="image/*"
-                                    onChange={handlePhotoChange}
-                                    className="photo-input"
-                                />
+                                <div className="form-group full-width">
+                                    <label>Special Needs</label>
+                                    <textarea
+                                        name="medicalInfo.specialNeeds"
+                                        value={formData.medicalInfo.specialNeeds}
+                                        onChange={handleChange}
+                                        placeholder="Describe any special needs or requirements"
+                                    />
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -175,7 +281,7 @@ const EditStudentForm = ({ student, onSubmit, onClose }) => {
                         <button type="button" className="cancel-btn" onClick={onClose}>
                             Cancel
                         </button>
-                        <button type="submit" className="submit-btn">
+                        <button type="submit" className="save-btn">
                             Save Changes
                         </button>
                     </div>

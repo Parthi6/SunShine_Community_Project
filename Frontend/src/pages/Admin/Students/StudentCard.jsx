@@ -18,36 +18,55 @@ const calculateAge = (dateOfBirth) => {
 
 const StudentCard = ({ student, onUpdate }) => {
     const [showDetails, setShowDetails] = useState(false);
-    const [showEdit, setShowEdit] = useState(false);
+    const [showEditForm, setShowEditForm] = useState(false);
 
     return (
         <>
             <div className="student-card">
-                <div className="student-photo">
-                    <img src={student.photo.url} alt={student.name} />
+                <div className="card-header">
+                    <div className="student-avatar">
+                        <img src={student.photo.url} alt={student.name} />
+                    </div>
+                    <div className="student-primary-info">
+                        <h3>{student.name}</h3>
+                        <span className="student-class">{student.class}</span>
+                    </div>
                 </div>
-                <div className="student-info">
-                    <h3>{student.name}</h3>
-                    <p className="student-class">{student.class}</p>
-                    <div className="student-details">
-                        <p><strong>Age:</strong> {calculateAge(student.dateOfBirth)}</p>
-                        <p><strong>Parent:</strong> {student.parentName}</p>
-                        <p><strong>Status:</strong> 
-                            <span className={`status-${student.status.toLowerCase()}`}>
+
+                <div className="card-content">
+                    <div className="info-grid">
+                        <div className="info-item">
+                            <span className="info-label">Age</span>
+                            <span className="info-value">{calculateAge(student.dateOfBirth)}</span>
+                        </div>
+                        <div className="info-item">
+                            <span className="info-label">Status</span>
+                            <span className={`status-badge status-${student.status.toLowerCase()}`}>
                                 {student.status}
                             </span>
-                        </p>
+                        </div>
+                        <div className="info-item full-width">
+                            <span className="info-label">Parent</span>
+                            <span className="info-value">{student.parentName}</span>
+                        </div>
+                        <div className="info-item full-width">
+                            <span className="info-label">Contact</span>
+                            <span className="info-value phone-number">
+                                {student.parentPhone}
+                            </span>
+                        </div>
                     </div>
+
                     <div className="card-actions">
                         <button 
-                            className="view-btn"
+                            className="card-btn view-btn"
                             onClick={() => setShowDetails(true)}
                         >
                             View Details
                         </button>
                         <button 
-                            className="edit-btn"
-                            onClick={() => setShowEdit(true)}
+                            className="card-btn edit-btn"
+                            onClick={() => setShowEditForm(true)}
                         >
                             Edit
                         </button>
@@ -57,16 +76,16 @@ const StudentCard = ({ student, onUpdate }) => {
 
             {showDetails && (
                 <StudentDetails 
-                    student={student}
+                    student={student} 
                     onClose={() => setShowDetails(false)}
                 />
             )}
 
-            {showEdit && (
+            {showEditForm && (
                 <EditStudentForm 
                     student={student}
                     onSubmit={onUpdate}
-                    onClose={() => setShowEdit(false)}
+                    onClose={() => setShowEditForm(false)}
                 />
             )}
         </>

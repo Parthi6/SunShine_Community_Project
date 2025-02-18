@@ -41,11 +41,12 @@ const AboutUs = () => {
         <div className="about-us-wrapper">
             {/* Welcome Section */}
             <div className="welcome-section">
-                <h1 className="welcome-title" data-text="WELCOME TO SUNSHINE PRE SCHOOL">
+                <h1 className="welcome-title">
                     WELCOME TO SUNSHINE PRE SCHOOL
                 </h1>
                 <p className="welcome-subtitle">
-                    NURTURING YOUNG MINDS, BUILDING BRIGHT FUTURES
+                    <span>NURTURING YOUNG MINDS</span>
+                    <span>BUILDING BRIGHT FUTURES</span>
                 </p>
             </div>
 

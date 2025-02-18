@@ -2,21 +2,45 @@ import express from "express";
 import { 
     markAttendance,
     getAttendanceByDate,
-    getAttendanceByStudent,
+    getAttendanceByClass,
+    getAttendanceAnalytics,
     updateAttendance,
+    getAllAttendance,
     deleteAttendance,
-    getAllAttendance
+    getWeeklyTrend,
+    getClasswiseAttendance
 } from "../controllers/attendanceController.js";
 import { isAdminAuthenticated } from "../middlewares/auth.js";
 
 const router = express.Router();
 
-// Admin routes
-router.post("/mark", isAdminAuthenticated, markAttendance);
-router.get("/all", isAdminAuthenticated, getAllAttendance);
-router.get("/date/:date", isAdminAuthenticated, getAttendanceByDate);
-router.get("/student/:studentId", isAdminAuthenticated, getAttendanceByStudent);
-router.put("/:id", isAdminAuthenticated, updateAttendance);
-router.delete("/:id", isAdminAuthenticated, deleteAttendance);
+// Protect all routes
+router.use(isAdminAuthenticated);
+
+// Attendance routes
+router.route("/mark")
+    .post(markAttendance);
+
+router.route("/by-date/:date")
+    .get(getAttendanceByDate);
+
+router.route("/by-class/:className")
+    .get(getAttendanceByClass);
+
+router.route("/analytics")
+    .get(getAttendanceAnalytics);
+
+router.route("/analytics/weekly")
+    .get(getWeeklyTrend);
+
+router.route("/analytics/classwise")
+    .get(getClasswiseAttendance);
+
+router.route("/:id")
+    .put(updateAttendance)
+    .delete(deleteAttendance);
+
+router.route("/")
+    .get(getAllAttendance);
 
 export default router;

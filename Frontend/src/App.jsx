@@ -19,6 +19,7 @@ import AdminDashboard from './pages/Admin/AdminDashboard'
 import ProtectedRoute from './components/ProtectedRoute'
 import { isAdminRoute } from './utils/routeUtils'
 import Students from './pages/Admin/Students/Students'
+import AttendanceManagement from './pages/Admin/Attendance/AttendanceManagement'
 
 // Create a wrapper component to handle the navbar logic
 const AppContent = () => {
@@ -67,6 +68,14 @@ const AppContent = () => {
           } 
         />
         <Route path="/admin/students" element={<Students />} />
+        <Route 
+          path="/admin/attendance" 
+          element={
+            <ProtectedRoute>
+              <AttendanceManagement />
+            </ProtectedRoute>
+          } 
+        />
       </Routes>
     </>
   );
