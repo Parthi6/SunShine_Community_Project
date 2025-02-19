@@ -23,6 +23,13 @@ ChartJS.register(
     Legend
 );
 
+const createGradient = (ctx, colors) => {
+    const gradient = ctx.createLinearGradient(0, 0, 100, 100);
+    gradient.addColorStop(0, colors[0]);
+    gradient.addColorStop(1, colors[1]);
+    return gradient;
+};
+
 const AttendanceAnalytics = ({ selectedDate, selectedClass, updateTrigger }) => {
     const [expandedCharts, setExpandedCharts] = useState({
         trends: false,
@@ -37,11 +44,12 @@ const AttendanceAnalytics = ({ selectedDate, selectedClass, updateTrigger }) => 
         labels: ['Present', 'Late', 'Absent'],
         datasets: [{
             data: [0, 0, 0],
-            backgroundColor: ['#2ecc71', '#f1c40f', '#e74c3c'],
+            backgroundColor: [],  // Will be set after canvas context is available
             borderColor: ['#27ae60', '#f39c12', '#c0392b'],
             borderWidth: 1
         }]
     });
+    const [gradients, setGradients] = useState(null);
 
     useEffect(() => {
         fetchAnalyticsData();
@@ -97,19 +105,7 @@ const AttendanceAnalytics = ({ selectedDate, selectedClass, updateTrigger }) => 
             );
 
             // Update pie chart data with late status
-            setPieChartData({
-                labels: ['Present', 'Late', 'Absent'],
-                datasets: [{
-                    data: [
-                        attendanceCounts.present,
-                        attendanceCounts.late,
-                        attendanceCounts.absent
-                    ],
-                    backgroundColor: ['#2ecc71', '#f1c40f', '#e74c3c'],
-                    borderColor: ['#27ae60', '#f39c12', '#c0392b'],
-                    borderWidth: 1
-                }]
-            });
+            updatePieChartData(attendanceCounts);
 
             // Update weekly trends API call to include class filter
             const weeklyResponse = await axios.get(
@@ -241,7 +237,8 @@ const AttendanceAnalytics = ({ selectedDate, selectedClass, updateTrigger }) => 
                     font: {
                         size: 14
                     }
-                }
+                },
+                onClick: null
             },
             tooltip: {
                 callbacks: {
@@ -259,11 +256,40 @@ const AttendanceAnalytics = ({ selectedDate, selectedClass, updateTrigger }) => 
         maintainAspectRatio: false
     };
 
+    // Update pieChartData when attendance data changes
+    const updatePieChartData = (attendanceCounts) => {
+        setPieChartData({
+            labels: ['Present', 'Late', 'Absent'],
+            datasets: [{
+                data: [
+                    attendanceCounts.present,
+                    attendanceCounts.late,
+                    attendanceCounts.absent
+                ],
+                backgroundColor: gradients || [
+                    '#2ecc71',  // Fallback colors
+                    '#f1c40f',
+                    '#e74c3c'
+                ],
+                borderColor: ['#27ae60', '#f39c12', '#c0392b'],
+                borderWidth: 1
+            }]
+        });
+    };
+
     const toggleChart = (chart) => {
         setExpandedCharts(prev => ({
             ...prev,
             [chart]: !prev[chart]
         }));
+    };
+
+    // Helper function to get formatted title
+    const getAttendanceRateTitle = () => {
+        if (selectedClass === 'all') {
+            return 'Daily Attendance Rate for All Classes';
+        }
+        return `Daily Attendance Rate for ${selectedClass}`;
     };
 
     return (
@@ -290,14 +316,30 @@ const AttendanceAnalytics = ({ selectedDate, selectedClass, updateTrigger }) => 
 
             <div className={`chart-wrapper ${expandedCharts.classwise ? 'expanded' : ''}`}>
                 <div className="chart-header" onClick={() => toggleChart('classwise')}>
-                    <h3>Daily Attendance Rate</h3>
+                    <h3>{getAttendanceRateTitle()}</h3>
                     <button className="expand-btn">
                         {expandedCharts.classwise ? '−' : '+'}
                     </button>
                 </div>
                 <div className={`chart-content ${expandedCharts.classwise ? 'show' : ''}`}>
                     <div className="chart-container">
-                        <Pie data={pieChartData} options={pieChartOptions} />
+                        <Pie 
+                            data={pieChartData} 
+                            options={pieChartOptions}
+                            plugins={[{
+                                id: 'initializeGradients',
+                                beforeInit: (chart) => {
+                                    if (!gradients) {
+                                        const ctx = chart.ctx;
+                                        setGradients([
+                                            createGradient(ctx, ['#2ecc71', '#27ae60']),
+                                            createGradient(ctx, ['#f1c40f', '#f39c12']),
+                                            createGradient(ctx, ['#e74c3c', '#c0392b'])
+                                        ]);
+                                    }
+                                }
+                            }]}
+                        />
                     </div>
                 </div>
             </div>
