@@ -1,13 +1,49 @@
 .student-card {
     background: white;
     border-radius: 10px;
-    overflow: hidden;
+    overflow: visible;
     box-shadow: 0 2px 8px rgba(0,0,0,0.06);
     transition: all 0.3s ease;
     border: 1px solid #f0f0f0;
     width: 100%;
     min-width: 340px;
     position: relative;
+    z-index: 1;
+}
+
+.delete-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: white;
+    border: 1px solid #dc3545;
+    color: #dc3545;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    padding: 0;
+    font-size: 14px;
+    z-index: 10;
+}
+
+.delete-button:hover {
+    background: #dc3545;
+    color: white;
+    transform: scale(1.05);
+}
+
+.delete-button:active {
+    transform: scale(0.95);
+}
+
+.delete-button:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(220, 53, 69, 0.25);
 }
 
 .student-card:hover {
@@ -21,6 +57,7 @@
     border-bottom: 1px solid #f0f0f0;
     background: #f8fafc;
     position: relative;
+    z-index: 1;
 }
 
 .student-avatar {
@@ -125,49 +162,57 @@
     font-size: 0.875rem;
 }
 
-.status-badge {
-    padding: 0.2rem 0.75rem;
-    border-radius: 15px;
-    font-size: 0.813rem;
+.badge-status {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.85rem;
     font-weight: 500;
-    text-align: center;
-    width: fit-content;
+    text-transform: capitalize;
+    display: inline-block;
+    margin-left: 25px;
 }
 
-.status-active {
-    background: #dcfce7;
-    color: #166534;
+.badge-active {
+    background-color: #e6f7e6;
+    color: #2e7d32;
+    border: 1px solid #a5d6a7;
 }
 
-.status-inactive {
-    background: #fee2e2;
-    color: #991b1b;
+.badge-inactive {
+    background-color: #ffeaea;
+    color: #d32f2f;
+    border: 1px solid #ffcdd2;
 }
 
-.status-graduated {
-    background: #e2e8f0;
-    color: #2d3748;
+.badge-pending {
+    background-color: #fff3e0;
+    color: #ef6c00;
+    border: 1px solid #ffe0b2;
+}
+
+.badge-graduated {
+    background-color: #e3f2fd;
+    color: #1976d2;
+    border: 1px solid #90caf9;
 }
 
 .card-actions {
     display: flex;
     gap: 0.75rem;
-    margin-top: 1.25rem;
+    padding: 1rem 1.25rem;
+    justify-content: center;
+    flex-wrap: wrap;
 }
 
 .card-btn {
-    flex: 1;
-    padding: 0.625rem;
-    border: none;
+    padding: 0.5rem 1rem;
     border-radius: 6px;
-    font-size: 0.875rem;
     font-weight: 500;
-    cursor: pointer;
+    font-size: 0.875rem;
     transition: all 0.2s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
+    flex: 1;
+    min-width: 120px;
+    cursor: pointer;
 }
 
 .view-btn {
@@ -224,4 +269,154 @@
     .card-btn {
         width: 100%;
     }
+}
+
+@media (max-width: 768px) {
+    .card-actions {
+        flex-direction: column;
+    }
+
+    .card-btn {
+        width: 100%;
+    }
+}
+
+/* Add these styles for the confirmation dialog */
+.react-confirm-alert-overlay {
+    background: rgba(0, 0, 0, 0.7);
+}
+
+.react-confirm-alert {
+    background: white;
+    border-radius: 10px;
+    padding: 30px;
+    box-shadow: 0 20px 75px rgba(0, 0, 0, 0.13);
+    width: 400px;
+}
+
+.react-confirm-alert-body {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.react-confirm-alert-body h1 {
+    font-size: 1.5rem;
+    color: #dc3545;
+    margin-bottom: 15px;
+}
+
+.react-confirm-alert-button-group {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.react-confirm-alert-button-group button {
+    padding: 8px 20px;
+    border-radius: 5px;
+    border: none;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.react-confirm-alert-button-group button:first-child {
+    background: #dc3545;
+    color: white;
+}
+
+.react-confirm-alert-button-group button:last-child {
+    background: #f8f9fa;
+    color: #333;
+    border: 1px solid #ddd;
+}
+
+.react-confirm-alert-button-group button:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+}
+
+/* Delete Modal Styles */
+.delete-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.75);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.delete-modal {
+    background: white;
+    border-radius: 8px;
+    padding: 0;
+    width: 90%;
+    max-width: 400px;
+    position: relative;
+    outline: none;
+}
+
+.delete-modal-content {
+    padding: 24px;
+}
+
+.delete-modal-content h2 {
+    color: #dc3545;
+    margin: 0 0 16px 0;
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.delete-modal-content p {
+    margin: 8px 0;
+    color: #4a5568;
+    font-size: 1rem;
+}
+
+.warning-text {
+    color: #dc3545 !important;
+    font-size: 0.875rem !important;
+    font-weight: 500;
+}
+
+.modal-buttons {
+    display: flex;
+    gap: 12px;
+    margin-top: 24px;
+    justify-content: flex-end;
+}
+
+.confirm-delete-btn {
+    background: #dc3545;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.confirm-delete-btn:hover {
+    background: #c82333;
+}
+
+.cancel-btn {
+    background: #f8f9fa;
+    color: #4a5568;
+    border: 1px solid #e2e8f0;
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.cancel-btn:hover {
+    background: #e2e8f0;
 } 

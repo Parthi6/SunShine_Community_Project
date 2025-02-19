@@ -3,6 +3,7 @@ import { FaGraduationCap, FaHeart, FaUsers, FaStar, FaPhone, FaEnvelope, FaMapMa
 import './AboutUs.css';
 import axios from 'axios';
 import { useState } from 'react';
+import ContactForm from '../components/ContactForm';
 
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -133,7 +134,27 @@ const AboutUs = () => {
             <div className="values-section">
                 <Container className="text-center">
                     <div className="title-wrapper">
-                        <h2 className="section-title">Our Core Values</h2>
+                        <h2 style={{
+                            color: '#FF6B6B',
+                            fontSize: '2.8rem',
+                            fontWeight: '700',
+                            marginBottom: '1rem',
+                            textDecoration: 'none',
+                            position: 'relative',
+                            paddingBottom: '20px',  // Add space for the gradient line
+                        }}>
+                            Our Core Values
+                            <div style={{
+                                content: '""',
+                                position: 'absolute',
+                                bottom: '0',
+                                left: '50%',
+                                transform: 'translateX(-50%)',
+                                width: '80px',
+                                height: '3px',
+                                background: 'linear-gradient(to right, #FF6B6B, #4ECDC4)'
+                            }}></div>
+                        </h2>
                         <div className="section-subtitle">
                             Guiding principles that shape our approach to education
                         </div>
@@ -183,7 +204,27 @@ const AboutUs = () => {
             <div className="why-choose-section">
                 <Container className="text-center">
                     <div className="title-wrapper">
-                        <h2 className="section-title">Why Choose Sunshine Pre School?</h2>
+                        <h2 style={{
+                            color: '#FF6B6B',
+                            fontSize: '2.8rem',
+                            fontWeight: '700',
+                            marginBottom: '1rem',
+                            textDecoration: 'none',
+                            position: 'relative',
+                            paddingBottom: '20px',
+                        }}>
+                            Why Choose Sunshine Pre School?
+                            <div style={{
+                                content: '""',
+                                position: 'absolute',
+                                bottom: '0',
+                                left: '50%',
+                                transform: 'translateX(-50%)',
+                                width: '80px',
+                                height: '3px',
+                                background: 'linear-gradient(to right, #FF6B6B, #4ECDC4)'
+                            }}></div>
+                        </h2>
                         <div className="section-subtitle">
                             Discover what makes our preschool special
                         </div>
@@ -224,7 +265,27 @@ const AboutUs = () => {
             <div className="teacher-section">
                 <Container className="text-center">
                     <div className="title-wrapper">
-                        <h2 className="section-title">Our Expert Teachers</h2>
+                        <h2 style={{
+                            color: '#FF6B6B',
+                            fontSize: '2.8rem',
+                            fontWeight: '700',
+                            marginBottom: '1rem',
+                            textDecoration: 'none',
+                            position: 'relative',
+                            paddingBottom: '20px',
+                        }}>
+                            Our Expert Teachers
+                            <div style={{
+                                content: '""',
+                                position: 'absolute',
+                                bottom: '0',
+                                left: '50%',
+                                transform: 'translateX(-50%)',
+                                width: '80px',
+                                height: '3px',
+                                background: 'linear-gradient(to right, #FF6B6B, #4ECDC4)'
+                            }}></div>
+                        </h2>
                         <div className="section-subtitle">
                             Meet our dedicated team of early childhood educators
                         </div>
@@ -294,59 +355,7 @@ const AboutUs = () => {
                                             <h2 className="contact-title fw-bold mb-2">Get in Touch</h2>
                                             <p className="text-muted">We'd love to hear from you</p>
                                         </div>
-                                        <Form onSubmit={handleSubmit}>
-                                            <Form.Group className="mb-3">
-                                                <Form.Label>Full Name</Form.Label>
-                                                <Form.Control
-                                                    type="text"
-                                                    name="name"
-                                                    value={formData.name}
-                                                    onChange={handleInputChange}
-                                                    required
-                                                    placeholder="Enter your name"
-                                                />
-                                            </Form.Group>
-                                            <Form.Group className="mb-3">
-                                                <Form.Label>Email address</Form.Label>
-                                                <Form.Control
-                                                    type="email"
-                                                    name="email"
-                                                    value={formData.email}
-                                                    onChange={handleInputChange}
-                                                    required
-                                                    placeholder="Enter your email"
-                                                />
-                                            </Form.Group>
-                                            <Form.Group className="mb-3">
-                                                <Form.Label>Phone Number</Form.Label>
-                                                <Form.Control
-                                                    type="tel"
-                                                    name="phone"
-                                                    value={formData.phone}
-                                                    onChange={handleInputChange}
-                                                    placeholder="Enter your phone number"
-                                                />
-                                            </Form.Group>
-                                            <Form.Group className="mb-4">
-                                                <Form.Label>Message</Form.Label>
-                                                <Form.Control
-                                                    as="textarea"
-                                                    rows={4}
-                                                    name="message"
-                                                    value={formData.message}
-                                                    onChange={handleInputChange}
-                                                    required
-                                                    placeholder="Your message"
-                                                />
-                                            </Form.Group>
-                                            <Button 
-                                                variant="primary" 
-                                                type="submit" 
-                                                className="w-100"
-                                            >
-                                                <span>Send Message</span>
-                                            </Button>
-                                        </Form>
+                                        <ContactForm />
                                     </Card.Body>
                                 </Card>
                             </div>

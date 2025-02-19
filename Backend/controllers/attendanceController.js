@@ -209,13 +209,17 @@ export const deleteAttendance = catchAsyncErrors(async (req, res, next) => {
 
 // Get weekly attendance trend
 export const getWeeklyTrend = catchAsyncErrors(async (req, res, next) => {
-    const { date } = req.query;
+    const { date, class: className } = req.query;
     const endDate = date ? new Date(date) : new Date();
     const startDate = new Date(endDate);
     startDate.setDate(endDate.getDate() - 4);
 
-    // First get total students per day
+    // Get total students based on class filter
+    const studentQuery = className && className !== 'all' ? { class: className } : {};
     const totalStudentsPerDay = await Student.aggregate([
+        {
+            $match: studentQuery
+        },
         {
             $group: {
                 _id: null,
@@ -226,18 +230,24 @@ export const getWeeklyTrend = catchAsyncErrors(async (req, res, next) => {
 
     const totalStudents = totalStudentsPerDay[0]?.totalStudents || 0;
 
+    // Add class filter to attendance match
+    const matchQuery = {
+        date: {
+            $gte: startDate,
+            $lte: endDate
+        }
+    };
+
+    if (className && className !== 'all') {
+        matchQuery.class = className;
+    }
+
     const weeklyData = await Attendance.aggregate([
         {
-            $match: {
-                date: {
-                    $gte: startDate,
-                    $lte: endDate
-                }
-            }
+            $match: matchQuery
         },
         {
             $addFields: {
-                // Convert 'Late' to 'Present' for calculation
                 effectiveStatus: {
                     $cond: [
                         { $eq: ["$status", "Late"] },
@@ -327,6 +337,16 @@ export const getClasswiseAttendance = catchAsyncErrors(async (req, res, next) =>
     const startOfDay = new Date(queryDate.setHours(0, 0, 0, 0));
     const endOfDay = new Date(queryDate.setHours(23, 59, 59, 999));
 
+    // Get total students per class
+    const studentsPerClass = await Student.aggregate([
+        {
+            $group: {
+                _id: "$class",
+                total: { $sum: 1 }
+            }
+        }
+    ]);
+
     const matchQuery = {
         date: {
             $gte: startOfDay,
@@ -344,7 +364,6 @@ export const getClasswiseAttendance = catchAsyncErrors(async (req, res, next) =>
         },
         {
             $addFields: {
-                // Convert 'Late' to 'Present' for calculation
                 effectiveStatus: {
                     $cond: [
                         { $eq: ["$status", "Late"] },
@@ -381,12 +400,13 @@ export const getClasswiseAttendance = catchAsyncErrors(async (req, res, next) =>
         absent: []
     };
 
-    const classes = ['Toddler', 'PreK-1', 'PreK-2', 'Kindergarten'];
+    const classes = className !== 'all' ? [className] : ['Toddler', 'PreK-1', 'PreK-2', 'Kindergarten'];
+    
     classes.forEach(cls => {
         const classData = classwiseData.find(item => item._id === cls) || { attendance: [] };
-        // Count both 'Present' and 'Late' as present
+        const totalStudents = studentsPerClass.find(item => item._id === cls)?.total || 0;
         const present = classData.attendance.find(a => a.status === 'Present')?.count || 0;
-        const absent = classData.attendance.find(a => a.status === 'Absent')?.count || 0;
+        const absent = totalStudents - present;
         
         formattedData.present.push(present);
         formattedData.absent.push(absent);

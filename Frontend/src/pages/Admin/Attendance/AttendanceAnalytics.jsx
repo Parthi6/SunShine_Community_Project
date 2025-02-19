@@ -1,7 +1,10 @@
 import { useState, useEffect } from 'react';
-import { Line, Bar } from 'react-chartjs-2';
+import { Line, Bar, Pie } from 'react-chartjs-2';
 import axios from 'axios';
-import { Chart as ChartJS } from 'chart.js/auto';
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
+
+// Register ChartJS components
+ChartJS.register(ArcElement, Tooltip, Legend);
 
 const AttendanceAnalytics = ({ selectedDate, selectedClass, updateTrigger }) => {
     const [expandedCharts, setExpandedCharts] = useState({
@@ -13,6 +16,15 @@ const AttendanceAnalytics = ({ selectedDate, selectedClass, updateTrigger }) => 
         present: [],
         absent: []
     });
+    const [pieChartData, setPieChartData] = useState({
+        labels: ['Present', 'Late', 'Absent'],
+        datasets: [{
+            data: [0, 0, 0],
+            backgroundColor: ['#2ecc71', '#f1c40f', '#e74c3c'],
+            borderColor: ['#27ae60', '#f39c12', '#c0392b'],
+            borderWidth: 1
+        }]
+    });
 
     useEffect(() => {
         fetchAnalyticsData();
@@ -20,17 +32,78 @@ const AttendanceAnalytics = ({ selectedDate, selectedClass, updateTrigger }) => 
 
     const fetchAnalyticsData = async () => {
         try {
-            // Format the date for API calls
             const formattedDate = selectedDate.toISOString().split('T')[0];
 
-            // Fetch weekly trend data
+            // Get all students and attendance data
+            const studentsResponse = await axios.get(
+                'http://localhost:4000/api/v1/students',
+                { withCredentials: true }
+            );
+
+            const attendanceResponse = await axios.get(
+                `http://localhost:4000/api/v1/attendances/by-date/${formattedDate}`,
+                { withCredentials: true }
+            );
+
+            // Filter active students based on selected class
+            let activeStudents = studentsResponse.data.students.filter(
+                student => student.status === 'Active'
+            );
+
+            if (selectedClass !== 'all') {
+                activeStudents = activeStudents.filter(
+                    student => student.class === selectedClass
+                );
+            }
+
+            // Create attendance map
+            const attendanceMap = new Map(
+                attendanceResponse.data.attendance
+                    .filter(record => record && record.student)
+                    .map(record => [record.student._id, record.status])
+            );
+
+            // Calculate present, late, and absent counts
+            const attendanceCounts = activeStudents.reduce(
+                (acc, student) => {
+                    const status = attendanceMap.get(student._id)?.toLowerCase() || 'absent';
+                    if (status === 'present') {
+                        acc.present++;
+                    } else if (status === 'late') {
+                        acc.late++;
+                    } else {
+                        acc.absent++;
+                    }
+                    return acc;
+                },
+                { present: 0, late: 0, absent: 0 }
+            );
+
+            // Update pie chart data with late status
+            setPieChartData({
+                labels: ['Present', 'Late', 'Absent'],
+                datasets: [{
+                    data: [
+                        attendanceCounts.present,
+                        attendanceCounts.late,
+                        attendanceCounts.absent
+                    ],
+                    backgroundColor: ['#2ecc71', '#f1c40f', '#e74c3c'],
+                    borderColor: ['#27ae60', '#f39c12', '#c0392b'],
+                    borderWidth: 1
+                }]
+            });
+
+            // Update weekly trends API call to include class filter
             const weeklyResponse = await axios.get(
-                `http://localhost:4000/api/v1/attendances/analytics/weekly?date=${formattedDate}`,
+                `http://localhost:4000/api/v1/attendances/analytics/weekly?date=${formattedDate}${
+                    selectedClass !== 'all' ? `&class=${selectedClass}` : ''
+                }`,
                 { withCredentials: true }
             );
             setWeeklyData(weeklyResponse.data.weeklyTrend);
 
-            // Fetch class-wise data
+            // Class-wise data API call (already has class filter)
             const classwiseResponse = await axios.get(
                 `http://localhost:4000/api/v1/attendances/analytics/classwise?date=${formattedDate}${
                     selectedClass !== 'all' ? `&class=${selectedClass}` : ''
@@ -54,7 +127,7 @@ const AttendanceAnalytics = ({ selectedDate, selectedClass, updateTrigger }) => 
         }),
         datasets: [
             {
-                label: 'Attendance Rate',
+                label: selectedClass === 'all' ? 'Overall Attendance Rate' : `${selectedClass} Attendance Rate`,
                 data: weeklyData.map(item => Number(item.attendanceRate.toFixed(1))),
                 fill: false,
                 borderColor: '#4ecdc4',
@@ -87,7 +160,9 @@ const AttendanceAnalytics = ({ selectedDate, selectedClass, updateTrigger }) => 
             },
             title: {
                 display: true,
-                text: 'Weekly Attendance Trend'
+                text: selectedClass === 'all' 
+                    ? 'Weekly Attendance Trend (All Classes)' 
+                    : `Weekly Attendance Trend (${selectedClass})`
             },
             tooltip: {
                 callbacks: {
@@ -140,6 +215,33 @@ const AttendanceAnalytics = ({ selectedDate, selectedClass, updateTrigger }) => 
         }
     };
 
+    const pieChartOptions = {
+        plugins: {
+            legend: {
+                position: 'bottom',
+                labels: {
+                    padding: 20,
+                    font: {
+                        size: 14
+                    }
+                }
+            },
+            tooltip: {
+                callbacks: {
+                    label: function(context) {
+                        const label = context.label || '';
+                        const value = context.raw || 0;
+                        const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                        const percentage = Math.round((value / total) * 100);
+                        return `${label}: ${value} (${percentage}%)`;
+                    }
+                }
+            }
+        },
+        responsive: true,
+        maintainAspectRatio: false
+    };
+
     const toggleChart = (chart) => {
         setExpandedCharts(prev => ({
             ...prev,
@@ -171,20 +273,14 @@ const AttendanceAnalytics = ({ selectedDate, selectedClass, updateTrigger }) => 
 
             <div className={`chart-wrapper ${expandedCharts.classwise ? 'expanded' : ''}`}>
                 <div className="chart-header" onClick={() => toggleChart('classwise')}>
-                    <h3>Class-wise Attendance</h3>
+                    <h3>Daily Attendance Rate</h3>
                     <button className="expand-btn">
                         {expandedCharts.classwise ? '−' : '+'}
                     </button>
                 </div>
                 <div className={`chart-content ${expandedCharts.classwise ? 'show' : ''}`}>
                     <div className="chart-container">
-                        <Bar 
-                            data={barChartData} 
-                            options={{
-                                ...barChartOptions,
-                                maintainAspectRatio: false
-                            }} 
-                        />
+                        <Pie data={pieChartData} options={pieChartOptions} />
                     </div>
                 </div>
             </div>

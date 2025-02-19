@@ -4,7 +4,7 @@ import {
     createEnrollment,
     getAllEnrollments,
     getEnrollmentById,
-    updateEnrollment,
+    updateEnrollmentStatus,
     deleteEnrollment
 } from "../controllers/enrollmentController.js";
 import { isAdminAuthenticated } from "../middlewares/auth.js";
@@ -17,7 +17,7 @@ router.post("/create", createEnrollment);
 // Admin protected routes
 router.get("/all", isAdminAuthenticated, getAllEnrollments);
 router.get("/:id", isAdminAuthenticated, getEnrollmentById);
-router.put("/:id", isAdminAuthenticated, updateEnrollment);
+router.put("/:id", isAdminAuthenticated, updateEnrollmentStatus);
 router.delete("/:id", isAdminAuthenticated, deleteEnrollment);
 
 export default router;

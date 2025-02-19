@@ -108,6 +108,10 @@ const Students = () => {
         }
     };
 
+    const handleDeleteStudent = (deletedId) => {
+        setStudents(prevStudents => prevStudents.filter(student => student._id !== deletedId));
+    };
+
     if (loading) {
         return <div>Loading...</div>;
     }
@@ -140,6 +144,7 @@ const Students = () => {
                             key={student._id}
                             student={student}
                             onUpdate={handleUpdateStudent}
+                            onDelete={handleDeleteStudent}
                         />
                     ))}
                 </div>

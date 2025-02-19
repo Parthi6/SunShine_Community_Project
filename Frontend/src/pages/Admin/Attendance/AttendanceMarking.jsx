@@ -16,12 +16,23 @@ const AttendanceMarking = ({ date, selectedClass, onAttendanceMarked }) => {
 
     const fetchStudents = async () => {
         try {
-            const query = selectedClass !== 'all' ? `?class=${selectedClass}` : '';
+            // Get all students
             const { data } = await axios.get(
-                `http://localhost:4000/api/v1/students${query}`,
+                'http://localhost:4000/api/v1/students',
                 { withCredentials: true }
             );
-            setStudents(data.students);
+            
+            // Filter and sort students using "all"
+            const filteredAndSortedStudents = data.students
+                .filter(student => selectedClass === 'all' || student.class === selectedClass)
+                .sort((a, b) => {
+                    if (a.class !== b.class) {
+                        return a.class.localeCompare(b.class);
+                    }
+                    return a.name.localeCompare(b.name);
+                });
+            
+            setStudents(filteredAndSortedStudents);
         } catch (error) {
             toast.error('Error fetching students');
             console.error('Error:', error);
