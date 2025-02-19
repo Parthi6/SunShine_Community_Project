@@ -1,10 +1,27 @@
 import { useState, useEffect } from 'react';
 import { Line, Bar, Pie } from 'react-chartjs-2';
 import axios from 'axios';
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
+import {
+    Chart as ChartJS,
+    CategoryScale,
+    LinearScale,
+    PointElement,
+    LineElement,
+    ArcElement,
+    Tooltip,
+    Legend
+} from 'chart.js';
 
 // Register ChartJS components
-ChartJS.register(ArcElement, Tooltip, Legend);
+ChartJS.register(
+    CategoryScale,   // x-axis
+    LinearScale,    // y-axis
+    PointElement,   // points
+    LineElement,    // lines
+    ArcElement,     // pie chart
+    Tooltip,
+    Legend
+);
 
 const AttendanceAnalytics = ({ selectedDate, selectedClass, updateTrigger }) => {
     const [expandedCharts, setExpandedCharts] = useState({

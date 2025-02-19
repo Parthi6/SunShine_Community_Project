@@ -51,13 +51,18 @@ const AttendanceMarking = ({ date, selectedClass, onAttendanceMarked }) => {
             
             // Convert array to object for easier lookup
             const attendanceMap = {};
+            // Add null check and ensure student exists
             data.attendance.forEach(record => {
-                attendanceMap[record.student._id] = record.status;
+                if (record && record.student && record.student._id) {
+                    attendanceMap[record.student._id] = record.status;
+                }
             });
+            
             setAttendance(attendanceMap);
             setSavedAttendance(attendanceMap);
         } catch (error) {
             console.error('Error fetching attendance:', error);
+            toast.error('Error loading attendance data');
         }
     };
 
