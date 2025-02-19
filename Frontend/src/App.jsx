@@ -20,6 +20,8 @@ import ProtectedRoute from './components/ProtectedRoute'
 import { isAdminRoute } from './utils/routeUtils'
 import Students from './pages/Admin/Students/Students'
 import AttendanceManagement from './pages/Admin/Attendance/AttendanceManagement'
+import Messages from './pages/Admin/Messages/Messages'
+import Enrollments from './pages/Admin/Enrollments/Enrollments'
 
 // Create a wrapper component to handle the navbar logic
 const AppContent = () => {
@@ -30,7 +32,7 @@ const AppContent = () => {
     const checkAuth = async () => {
       try {
         const { data } = await axios.get(
-          "http://localhost:4000/api/v1/user/parent/me",
+          "http://localhost:4000/api/v1/admin/me",
           {
             withCredentials: true,
           }
@@ -76,6 +78,16 @@ const AppContent = () => {
             </ProtectedRoute>
           } 
         />
+        <Route 
+          path="/admin/messages" 
+          element={
+            <ProtectedRoute>
+              <Messages />
+            </ProtectedRoute>
+          } 
+        />
+        <Route path="/admin/enrollments" element={<Enrollments />} />
+        <Route path="/contact" element={<ContactUs />} />
       </Routes>
     </>
   );
