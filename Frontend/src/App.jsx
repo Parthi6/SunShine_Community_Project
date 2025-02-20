@@ -3,7 +3,7 @@ import "./App.css"
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom'
 import Home from './pages/Home'
 import AboutUs from './pages/AboutUs'
-import Gallery from './pages/Gallery'
+import Gallery from './pages/Gallery/Gallery'
 import ContactUs from './pages/ContactUs'
 import Enrollment from './pages/Enrollment'
 import Login from './pages/Login'
@@ -22,6 +22,7 @@ import Students from './pages/Admin/Students/Students'
 import AttendanceManagement from './pages/Admin/Attendance/AttendanceManagement'
 import Messages from './pages/Admin/Messages/Messages'
 import Enrollments from './pages/Admin/Enrollments/Enrollments'
+import AdminGallery from './pages/Admin/Gallery/AdminGallery'
 
 // Create a wrapper component to handle the navbar logic
 const AppContent = () => {
@@ -87,6 +88,7 @@ const AppContent = () => {
           } 
         />
         <Route path="/admin/enrollments" element={<Enrollments />} />
+        <Route path="/admin/gallery" element={<AdminGallery />} />
         <Route path="/contact" element={<ContactUs />} />
       </Routes>
     </>

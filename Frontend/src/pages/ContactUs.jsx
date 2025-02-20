@@ -37,7 +37,7 @@ const ContactUs = () => {
         }
     };
 
-    return (
+  return (
         <div className="contact-wrapper">
             <Container>
                 <div className="contact-content">
