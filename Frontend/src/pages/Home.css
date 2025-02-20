@@ -176,17 +176,19 @@ body, html {
 
 /* Section Titles */
 .section-title-wrapper {
-    margin-bottom: 50px;
+    text-align: center;
+    margin-bottom: 3rem;
+    padding: 2rem 0;
 }
 
 .section-title {
-    color: #FF6B6B;
-    font-size: 2.8rem;
+    font-size: 3rem;
     font-weight: 700;
-    margin-bottom: 20px;
+    color: #2D3748;
+    margin-bottom: 1rem;
     position: relative;
     display: inline-block;
-    padding-bottom: 20px;
+    padding-bottom: 1rem;
 }
 
 .section-title::after {
@@ -196,15 +198,17 @@ body, html {
     left: 50%;
     transform: translateX(-50%);
     width: 80px;
-    height: 3px;
+    height: 4px;
     background: linear-gradient(to right, #FF6B6B, #4ECDC4);
+    border-radius: 2px;
 }
 
 .section-subtitle {
-    color: #666;
     font-size: 1.2rem;
+    color: #718096;
     max-width: 600px;
     margin: 0 auto;
+    line-height: 1.6;
 }
 
 /* Gradient Divider */
@@ -232,12 +236,88 @@ body, html {
     background-size: cover;
 }
 
+/* Add responsive styles */
 @media (max-width: 768px) {
     .stat-card {
         margin-bottom: 30px;
     }
     
     .section-title {
-        font-size: 2.2rem;
+        font-size: 2.5rem;
+    }
+    
+    .section-subtitle {
+        font-size: 1.1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .section-title {
+        font-size: 2rem;
+    }
+    
+    .section-subtitle {
+        font-size: 1rem;
+    }
+}
+
+/* New Section Title Styles */
+.big-title-wrapper {
+    text-align: center;
+    padding: 4rem 0 2rem;
+    margin-bottom: 2rem;
+}
+
+.big-title {
+    font-size: 3.5rem;
+    font-weight: 800;
+    color: #FF6B6B;
+    margin-bottom: 1.5rem;
+    position: relative;
+    display: inline-block;
+    padding-bottom: 1.5rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.big-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 5px;
+    background: linear-gradient(to right, #FF6B6B, #4ECDC4);
+    border-radius: 2.5px;
+}
+
+.big-subtitle {
+    font-size: 1.4rem;
+    color: #718096;
+    max-width: 700px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+/* Responsive styles for the new title */
+@media (max-width: 768px) {
+    .big-title {
+        font-size: 3rem;
+    }
+    
+    .big-subtitle {
+        font-size: 1.2rem;
+        padding: 0 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .big-title {
+        font-size: 2.5rem;
+    }
+    
+    .big-subtitle {
+        font-size: 1.1rem;
     }
 }

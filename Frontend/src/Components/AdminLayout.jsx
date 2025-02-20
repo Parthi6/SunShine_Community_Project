@@ -30,14 +30,7 @@ const AdminLayout = ({ children }) => {
                     height: '80px',
                     position: 'relative'
                 }}>
-                    <h1 className="admin-title" style={{ 
-                        color: 'black', 
-                        margin: '0',
-                        position: 'absolute',
-                        left: '-60px'
-                    }}>
-                        Sunshine Preschool Admin
-                    </h1>
+                   
                     
                     <button 
                         onClick={handleLogout} 
@@ -68,7 +61,9 @@ const AdminLayout = ({ children }) => {
                 isExpanded={isSidebarExpanded} 
                 onToggle={() => setIsSidebarExpanded(!isSidebarExpanded)}
             />
-            <div className={`dashboard-container ${isSidebarExpanded ? 'sidebar-expanded' : ''}`}>
+            <div className={`dashboard-container ${isSidebarExpanded ? 'sidebar-expanded' : ''}`}
+            
+            >
                 {children}
             </div>
         </div>

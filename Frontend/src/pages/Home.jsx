@@ -62,7 +62,17 @@ const Home = () => {
       <div className="biography-section">
         <Container>
           <div className="section-title-wrapper text-center">
-            <h2 className="section-title">Sunshine PreSchool</h2>
+            <h2 className="section-title" style={{ 
+              textAlign: 'center', 
+              width: '100%',
+              display: 'flex',
+              justifyContent: 'center',
+              fontSize: '3.5rem',
+              fontWeight: '800',
+              margin: '0 auto 1rem auto'
+            }}>
+              Sunshine PreSchool
+            </h2>
             <p className="section-subtitle">Where Every Child's Future Begins</p>
           </div>
           <Biography imageUrl={"Images/about.png"} />
@@ -74,7 +84,17 @@ const Home = () => {
       <div className="facilities-section">
         <Container>
           <div className="section-title-wrapper text-center">
-            <h2 className="section-title">Our Facilities</h2>
+            <h2 className="section-title" style={{ 
+              textAlign: 'center', 
+              width: '100%',
+              display: 'flex',
+              justifyContent: 'center',
+              fontSize: '3.5rem',
+              fontWeight: '800',
+              margin: '0 auto 1rem auto'
+            }}>
+              Our Facilities
+            </h2>
             <p className="section-subtitle">Providing the Best for Your Child</p>
           </div>
           <Facilities />
