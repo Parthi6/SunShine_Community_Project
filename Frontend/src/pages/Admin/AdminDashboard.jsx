@@ -10,7 +10,7 @@ import {
   FaCalendarCheck,
   FaUserClock
 } from 'react-icons/fa';
-import AdminLayout from '../../components/AdminLayout';
+import AdminLayout from '../../Components/AdminLayout';
 import './AdminDashboard.css';
 
 const AdminDashboard = () => {

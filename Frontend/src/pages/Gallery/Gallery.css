@@ -20,7 +20,7 @@ body.modal-open .sunshine-navbar {
 .gallery-page {
     padding: 0;
     max-width: 1400px;
-    margin: 20px auto 0;
+    margin: 80px auto 0;
     min-height: calc(100vh - 60px);
     background: #f8f9fa;
     position: relative;
@@ -61,30 +61,31 @@ body.modal-open .sunshine-navbar {
 
 .category-filter {
     display: flex;
-    justify-content: center;
-    gap: 15px;
     flex-wrap: wrap;
-    margin-bottom: 30px;
-    margin-top: 20px;
+    gap: 10px;
+    justify-content: center;
+    margin: 20px 0;
 }
 
 .filter-btn {
-    padding: 10px 24px;
-    border-radius: 30px;
-    font-weight: 500;
-    border: 2px solid transparent;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    color: #333;
+    cursor: pointer;
     transition: all 0.3s ease;
-}
-
-.filter-btn:hover {
-    border-color: var(--secondary);
-    color: var(--secondary);
+    font-weight: 500;
 }
 
 .filter-btn.active {
-    background: var(--gradient);
+    background: #4ECDC4;
     color: white;
-    box-shadow: 0 4px 15px rgba(78, 205, 196, 0.2);
+}
+
+.filter-btn:hover {
+    background: #FF6B6B;
+    color: white;
 }
 
 .albums-container {
@@ -376,7 +377,7 @@ body.modal-open .sunshine-navbar {
 .photo-display {
     position: relative;
     width: 100%;
-    height: calc(92vh - 280px);
+    height: calc(92vh - 200px);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -640,4 +641,154 @@ body.modal-open .sunshine-navbar {
     justify-content: center;
     min-height: 60vh;
     color: var(--text-dark);
+}
+
+/* Basic grid layout */
+.photos-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    padding: 20px;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+/* Photo item container */
+.photo-item {
+    position: relative;
+    width: 100%;
+    height: 120px; /* Reduced from 400px for better proportions */
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+/* Photo hover effect */
+.photo-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
+
+/* Image styling */
+.photo-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1200px) {
+    .photos-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .photo-item {
+        height: 260px; /* Slightly smaller on medium screens */
+    }
+}
+
+@media (max-width: 768px) {
+    .photos-grid {
+        grid-template-columns: repeat(1, 1fr);
+        gap: 15px;
+        padding: 15px;
+    }
+    .photo-item {
+        height: 240px; /* Even smaller on mobile */
+    }
+}
+
+.single-photo-view {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.95);
+    z-index: 2000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.single-photo-view img {
+    max-width: 95%;
+    max-height: 90vh;
+    object-fit: contain;
+    cursor: default;
+}
+
+.single-photo-view .close-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: rgba(255, 255, 255, 0.15);
+    border: none;
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 2001;
+    opacity: 0.7;
+}
+
+.single-photo-view .close-btn:hover {
+    opacity: 1;
+    transform: rotate(90deg);
+}
+
+.single-photo-view .nav-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.15);
+    border: none;
+    color: white;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 2001;
+    opacity: 0.7;
+}
+
+.single-photo-view .nav-btn:hover {
+    opacity: 1;
+    transform: translateY(-50%) scale(1.1);
+}
+
+.single-photo-view .nav-btn.prev {
+    left: 20px;
+}
+
+.single-photo-view .nav-btn.next {
+    right: 20px;
+}
+
+@media (max-width: 768px) {
+    .single-photo-view img {
+        max-width: 100%;
+        max-height: 85vh;
+    }
+
+    .single-photo-view .nav-btn {
+        width: 40px;
+        height: 40px;
+    }
+}
+
+/* Add keyboard navigation support */
+.single-photo-view:focus {
+    outline: none;
 } 
