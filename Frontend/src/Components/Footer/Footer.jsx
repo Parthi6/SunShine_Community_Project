@@ -1,7 +1,7 @@
 import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import { FaPhone, FaEnvelope, FaMapMarkerAlt, FaFacebook, FaInstagram, FaTwitter } from 'react-icons/fa';
+import { FaPhone, FaEnvelope, FaMapMarkerAlt, FaFacebook, FaInstagram, FaTwitter, FaYoutube, FaWhatsapp } from 'react-icons/fa';
 import './Footer.css';
 
 const Footer = () => {
@@ -36,15 +36,15 @@ const Footer = () => {
               <div className="contact-info">
                 <p>
                   <FaMapMarkerAlt className="icon" />
-                  Belihuloya, Sri Lanka
+                  SunShine Pre School, Pambahinna junction, Belihuloya
                 </p>
                 <p>
                   <FaPhone className="icon" />
-                  +94 123 456 789
+                  +94 77 530 3663
                 </p>
                 <p>
                   <FaEnvelope className="icon" />
-                  info@sunshinepreshool.com
+                  info.pssunshine@gmail.com
                 </p>
               </div>
             </Col>
@@ -52,9 +52,9 @@ const Footer = () => {
             <Col lg={3} md={6} className="footer-social">
               <h4>Follow Us</h4>
               <div className="social-links">
-                <a href="#" className="facebook"><FaFacebook /></a>
-                <a href="#" className="instagram"><FaInstagram /></a>
-                <a href="#" className="twitter"><FaTwitter /></a>
+                <a href="https://web.facebook.com/profile.php?id=100063547088283" className="facebook"><FaFacebook /></a>
+                <a href="https://wa.me/94775303663" className="instagram"><FaWhatsapp /></a>
+                
               </div>
               <div className="footer-hours">
                 <h4>Hours</h4>

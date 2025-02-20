@@ -5,13 +5,102 @@ import { Container } from 'react-bootstrap';
 import './Gallery.css';
 import { FaCalendar, FaCamera, FaArrowLeft, FaArrowRight, FaTimes } from 'react-icons/fa';
 
+const FIXED_PHOTOS = [
+    {
+        _id: 'fixed1',
+        url: '/albums/1.jpeg',
+        albumTitle: 'School Activities',
+        category: 'Activities',
+        createdAt: new Date('2024-01-15')
+    },
+    {
+        _id: 'fixed2',
+        url: '/albums/2.jpeg',
+        albumTitle: 'School Events',
+        category: 'Events',
+        createdAt: new Date('2024-01-16')
+    },
+    {
+        _id: 'fixed3',
+        url: '/albums/3.jpeg',
+        albumTitle: 'Celebrations',
+        category: 'Celebrations',
+        createdAt: new Date('2024-01-17')
+    },
+    {
+        _id: 'fixed4',
+        url: '/albums/4.jpeg',
+        albumTitle: 'School Activities',
+        category: 'Activities',
+        createdAt: new Date('2024-01-18')
+    },
+    {
+        _id: 'fixed5',
+        url: '/albums/5.jpeg',
+        albumTitle: 'Field Trips',
+        category: 'Field Trips',
+        createdAt: new Date('2024-01-19')
+    },
+    {
+        _id: 'fixed6',
+        url: '/albums/6.jpeg',
+        albumTitle: 'School Events',
+        category: 'Events',
+        createdAt: new Date('2024-01-20')
+    },
+    {
+        _id: 'fixed7',
+        url: '/albums/7.jpeg',
+        albumTitle: 'Celebrations',
+        category: 'Celebrations',
+        createdAt: new Date('2024-01-21')
+    },
+    {
+        _id: 'fixed8',
+        url: '/albums/8.jpeg',
+        albumTitle: 'Field Trips',
+        category: 'Field Trips',
+        createdAt: new Date('2024-01-22')
+    },
+    {
+        _id: 'fixed9',
+        url: '/albums/9.jpeg',
+        albumTitle: 'School Activities',
+        category: 'Activities',
+        createdAt: new Date('2024-01-23')
+    },
+    {
+        _id: 'fixed10',
+        url: '/albums/10.jpeg',
+        albumTitle: 'School Events',
+        category: 'Events',
+        createdAt: new Date('2024-01-24')
+    },
+    {
+        _id: 'fixed9',
+        url: '/albums/11.jpeg',
+        albumTitle: 'School Activities',
+        category: 'Activities',
+        createdAt: new Date('2024-01-23')
+    },
+    {
+        _id: 'fixed10',
+        url: '/albums/12.jpeg',
+        albumTitle: 'School Events',
+        category: 'Events',
+        createdAt: new Date('2024-01-24')
+    }
+];
+
 const Gallery = () => {
     const [albums, setAlbums] = useState([]);
     const [selectedAlbum, setSelectedAlbum] = useState(null);
-    const [selectedCategory, setSelectedCategory] = useState('all');
+    const [selectedCategory, setSelectedCategory] = useState('All Photos');
     const [loading, setLoading] = useState(true);
     const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0);
     const [isFullscreen, setIsFullscreen] = useState(false);
+    const [viewType, setViewType] = useState('photos');
+    const [selectedPhoto, setSelectedPhoto] = useState(null);
 
     useEffect(() => {
         fetchAlbums();
@@ -31,7 +120,15 @@ const Gallery = () => {
 
     useEffect(() => {
         const handleKeyPress = (e) => {
-            if (selectedAlbum) {
+            if (selectedPhoto) {
+                if (e.key === 'ArrowRight') {
+                    handleSinglePhotoNext(e);
+                } else if (e.key === 'ArrowLeft') {
+                    handleSinglePhotoPrev(e);
+                } else if (e.key === 'Escape') {
+                    setSelectedPhoto(null);
+                }
+            } else if (selectedAlbum) {
                 if (e.key === 'ArrowRight') {
                     handleNextPhoto(e);
                 } else if (e.key === 'ArrowLeft') {
@@ -48,7 +145,7 @@ const Gallery = () => {
 
         window.addEventListener('keydown', handleKeyPress);
         return () => window.removeEventListener('keydown', handleKeyPress);
-    }, [selectedAlbum, isFullscreen]);
+    }, [selectedPhoto, selectedAlbum, isFullscreen]);
 
     const fetchAlbums = async () => {
         try {
@@ -68,10 +165,44 @@ const Gallery = () => {
         }
     };
 
-    const categories = ['Events', 'Activities', 'Celebrations', 'Field Trips', 'Other'];
-    const filteredAlbums = selectedCategory === 'all' 
-        ? albums 
-        : albums.filter(album => album.category === selectedCategory);
+    const categories = ['All Photos','All Albums', 'Events', 'Activities', 'Celebrations', 'Field Trips', 'Other'];
+    const handleCategoryChange = (category) => {
+        setSelectedCategory(category);
+        // Set view type based on category
+        if (category === 'All Photos') {
+            setViewType('photos');
+        } else {
+            setViewType('albums');
+        }
+    };
+
+    const getFilteredContent = () => {
+        if (selectedCategory === 'All Albums') {
+            return albums;
+        }
+        
+        if (selectedCategory === 'All Photos') {
+            // For fixed photos, we'll only return these initially
+            return FIXED_PHOTOS;
+            
+            // Once backend is ready, uncomment this to include album photos
+            /*
+            const albumPhotos = albums.flatMap(album => 
+                album.photos.map(photo => ({
+                    ...photo,
+                    albumTitle: album.title,
+                    category: album.category,
+                    createdAt: album.createdAt
+                }))
+            );
+            
+            return [...FIXED_PHOTOS, ...albumPhotos]
+                .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+            */
+        }
+        
+        return albums.filter(album => album.category === selectedCategory);
+    };
 
     const handleNextPhoto = (e) => {
         e.stopPropagation();
@@ -96,6 +227,41 @@ const Gallery = () => {
         setCurrentPhotoIndex(0);
     };
 
+    const handlePhotoClick = (photo) => {
+        if (selectedCategory === 'All Photos') {
+            setSelectedPhoto(photo);
+        } else {
+            // Existing album photo click logic
+            const album = albums.find(a => 
+                a.photos.some(p => p._id === photo._id || p.url === photo.url)
+            );
+            
+            if (album) {
+                setSelectedAlbum(album);
+                const photoIndex = album.photos.findIndex(p => 
+                    p._id === photo._id || p.url === photo.url
+                );
+                setCurrentPhotoIndex(photoIndex);
+            }
+        }
+    };
+
+    const handleSinglePhotoNext = (e) => {
+        e.stopPropagation();
+        const allPhotos = getFilteredContent();
+        const currentIndex = allPhotos.findIndex(p => p._id === selectedPhoto._id);
+        const nextIndex = currentIndex === allPhotos.length - 1 ? 0 : currentIndex + 1;
+        setSelectedPhoto(allPhotos[nextIndex]);
+    };
+
+    const handleSinglePhotoPrev = (e) => {
+        e.stopPropagation();
+        const allPhotos = getFilteredContent();
+        const currentIndex = allPhotos.findIndex(p => p._id === selectedPhoto._id);
+        const prevIndex = currentIndex === 0 ? allPhotos.length - 1 : currentIndex - 1;
+        setSelectedPhoto(allPhotos[prevIndex]);
+    };
+
     if (loading) {
         return (
             <div className="gallery-loading">
@@ -112,17 +278,11 @@ const Gallery = () => {
                 <p className="gallery-subtitle">Explore our memorable moments and activities</p>
                 
                 <div className="category-filter">
-                    <button 
-                        className={`filter-btn ${selectedCategory === 'all' ? 'active' : ''}`}
-                        onClick={() => setSelectedCategory('all')}
-                    >
-                        All
-                    </button>
                     {categories.map(category => (
                         <button
                             key={category}
                             className={`filter-btn ${selectedCategory === category ? 'active' : ''}`}
-                            onClick={() => setSelectedCategory(category)}
+                            onClick={() => handleCategoryChange(category)}
                         >
                             {category}
                         </button>
@@ -130,13 +290,9 @@ const Gallery = () => {
                 </div>
             </div>
 
-            {filteredAlbums.length === 0 ? (
-                <div className="no-albums">
-                    <p>No albums found in this category.</p>
-                </div>
-            ) : (
+            {viewType === 'albums' ? (
                 <div className="albums-container">
-                    {filteredAlbums.map(album => (
+                    {getFilteredContent().map(album => (
                         <div key={album._id} className="album-preview" onClick={() => handleAlbumClick(album)}>
                             <div className="album-cover">
                                 {album.photos[0] ? (
@@ -166,6 +322,53 @@ const Gallery = () => {
                             </div>
                         </div>
                     ))}
+                </div>
+            ) : (
+                <div className="photos-grid">
+                    {getFilteredContent().map((photo, index) => (
+                        <div 
+                            key={photo._id || index} 
+                            className={`photo-item ${selectedCategory === 'All Photos' ? 'no-hover-info' : ''}`}
+                            onClick={() => handlePhotoClick(photo)}
+                        >
+                            <img 
+                                src={photo.url} 
+                                alt={photo.albumTitle}
+                                onError={(e) => {
+                                    console.error(`Failed to load image: ${photo.url}`);
+                                    e.target.src = '/placeholder.jpg';
+                                }}
+                            />
+                            {selectedCategory !== 'All Photos' && (
+                                <div className="photo-info">
+                                    <span className="photo-album">{photo.albumTitle}</span>
+                                    <span className="photo-category">{photo.category}</span>
+                                    <span className="photo-date">
+                                        {new Date(photo.createdAt).toLocaleDateString()}
+                                    </span>
+                                </div>
+                            )}
+                        </div>
+                    ))}
+                </div>
+            )}
+
+            {selectedPhoto && (
+                <div className="single-photo-view" onClick={() => setSelectedPhoto(null)}>
+                    <button className="close-btn" onClick={() => setSelectedPhoto(null)}>
+                        <FaTimes />
+                    </button>
+                    <button className="nav-btn prev" onClick={handleSinglePhotoPrev}>
+                        <FaArrowLeft />
+                    </button>
+                    <img 
+                        src={selectedPhoto.url} 
+                        alt={selectedPhoto.albumTitle}
+                        onClick={(e) => e.stopPropagation()}
+                    />
+                    <button className="nav-btn next" onClick={handleSinglePhotoNext}>
+                        <FaArrowRight />
+                    </button>
                 </div>
             )}
 
