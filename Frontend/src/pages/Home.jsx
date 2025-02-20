@@ -1,7 +1,8 @@
 import Hero from '../components/Home/Hero';
 import Biography from '../components/Home/Biography';
-import Messages from '../components/Home/Messages';
-import Facilities from '../components/Home/Facilities';
+import Messages from '../Components/Home/Messages';
+import Facilities from '../Components/Home/Facilities';
+import Footer from '../Components/Footer/Footer';
 import { Container, Row, Col } from 'react-bootstrap';
 import { FaGraduationCap, FaHeart, FaStar, FaUsers } from 'react-icons/fa';
 import './Home.css';  // Import CSS for wave background and other styles
@@ -61,7 +62,17 @@ const Home = () => {
       <div className="biography-section">
         <Container>
           <div className="section-title-wrapper text-center">
-            <h2 className="section-title">Welcome to Sunshine PreSchool</h2>
+            <h2 className="section-title" style={{ 
+              textAlign: 'center', 
+              width: '100%',
+              display: 'flex',
+              justifyContent: 'center',
+              fontSize: '3.5rem',
+              fontWeight: '800',
+              margin: '0 auto 1rem auto'
+            }}>
+              Sunshine PreSchool
+            </h2>
             <p className="section-subtitle">Where Every Child's Future Begins</p>
           </div>
           <Biography imageUrl={"Images/about.png"} />
@@ -73,18 +84,27 @@ const Home = () => {
       <div className="facilities-section">
         <Container>
           <div className="section-title-wrapper text-center">
-            <h2 className="section-title">Our Facilities</h2>
+            <h2 className="section-title" style={{ 
+              textAlign: 'center', 
+              width: '100%',
+              display: 'flex',
+              justifyContent: 'center',
+              fontSize: '3.5rem',
+              fontWeight: '800',
+              margin: '0 auto 1rem auto'
+            }}>
+              Our Facilities
+            </h2>
             <p className="section-subtitle">Providing the Best for Your Child</p>
           </div>
           <Facilities />
         </Container>
       </div>
 
-      {/* Teacher Section */}
-      {/* <Messages /> */}
+      
 
-      {/* Wave Background */}
-      <div className="wave"></div>
+      
+      <Footer />
     </div>
   );
 };

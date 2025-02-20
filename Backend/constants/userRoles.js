@@ -1,7 +1,7 @@
 export const USER_ROLES = {
-    ADMIN: "Admin",
-    PARENT: "Parent",
-    TEACHER: "Teacher"
+    ADMIN: 'admin',
+    TEACHER: 'teacher',
+    PARENT: 'parent'
 };
 
 export const DEFAULT_ROLE = USER_ROLES.PARENT; 

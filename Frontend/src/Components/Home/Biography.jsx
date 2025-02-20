@@ -9,11 +9,16 @@ const Biography = ({ imageUrl }) => {
           <img src={imageUrl} alt='aboutimage' />
         </div>
         <div className='text'>
-          <h3>Welcome to Sunshine Preschool</h3>
-          <p>
-            Welcome to Sunshine Preschool, Belihuloya! We are passionate about Montessori education and dedicated to nurturing the growth and development of young minds. Our approach is based on the principles of Dr. Maria Montessori, ensuring that every child receives the highest standard of education in a warm, supportive, and fun environment.
+          <h3>Nurturing Young Minds</h3>
+          <p style={{ 
+            color: 'black', 
+            fontSize: '18px', 
+            fontWeight: '500',
+            lineHeight: '1.8',
+            letterSpacing: '0.3px'
+          }}>
+            At Sunshine Preschool Belihuloya, we embrace the Montessori philosophy of education. Through personalized attention and expert guidance, we help each child discover their unique potential. Our nurturing environment, built on Dr. Maria Montessori's time-tested principles, provides the perfect setting for children to learn, grow, and thrive in their early years.
           </p>
-         
         </div>
       </div>
     </div>

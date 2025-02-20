@@ -45,7 +45,7 @@ const NavbarComponent = () => {
                         <Nav.Link as={Link} to="/">Home</Nav.Link>
                         <Nav.Link as={Link} to="/aboutus">About Us</Nav.Link>
                         <Nav.Link as={Link} to="/gallery">Gallery</Nav.Link>
-                        <Nav.Link as={Link} to="/enrollment">Enrollment</Nav.Link>
+                        <Nav.Link as={Link} to="/contact">Contact Us</Nav.Link>
                         
                         {isAuthenticated ? (
                             <Button 
@@ -58,10 +58,11 @@ const NavbarComponent = () => {
                         ) : (
                             <Button 
                                 variant="sunshine-primary"
-                                onClick={() => navigateTo("/login")}
+                                as={Link}
+                                to="/enrollment"
                                 className="ms-lg-3"
                             >
-                                <span>Login</span>
+                                <span>Enrollment</span>
                             </Button>
                         )}
                     </Nav>

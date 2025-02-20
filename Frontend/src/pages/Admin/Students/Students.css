@@ -1,0 +1,79 @@
+.students-container {
+    padding: 2rem;
+}
+
+.students-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.add-student-btn {
+    padding: 0.75rem 1.5rem;
+    background: linear-gradient(140deg, #ff6b6b, #4ecdc4);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+.add-student-btn:hover {
+    opacity: 0.9;
+}
+
+.students-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.analytics-section {
+    background: white;
+    border-radius: 10px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.analytics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+}
+
+.analytic-card {
+    text-align: center;
+    padding: 1rem;
+    background: #f8f9fa;
+    border-radius: 8px;
+}
+
+.analytic-number {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #ff6b6b;
+    margin: 0.5rem 0;
+}
+
+.analytic-label {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.analytics-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding: 0 1rem;
+}
+
+.current-date {
+    color: #666;
+    font-size: 1rem;
+    font-weight: 500;
+} 

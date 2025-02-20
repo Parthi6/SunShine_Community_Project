@@ -1,25 +1,33 @@
 import mongoose from 'mongoose';
 
-const attendanceSchema = new mongoose.Schema(
-  {
+const attendanceSchema = new mongoose.Schema({
     studentId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Enrollment', // Linking to the Enrollment collection
-      required: true,
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: [true, "Student ID is required"]
     },
     date: {
-      type: String, // Storing date as string (e.g., "Thu Oct 05 2023")
-      required: true,
+        type: Date,
+        required: [true, "Date is required"],
+        default: Date.now
     },
     status: {
-      type: String,
-      enum: ['Present', 'Absent'], // Possible statuses
-      required: true,
+        type: String,
+        required: [true, "Status is required"],
+        enum: ["Present", "Absent", "Late"],
+        default: "Present"
     },
-  },
-  { timestamps: true } // Automatically add createdAt and updatedAt
-);
+    remarks: {
+        type: String,
+        trim: true
+    },
+    createdAt: {
+        type: Date,
+        default: Date.now
+    }
+});
 
-// Export the Attendance model as the default export
-const Attendance = mongoose.model('Attendance', attendanceSchema);
-export default Attendance;
+// Compound index to prevent duplicate attendance records
+attendanceSchema.index({ studentId: 1, date: 1 }, { unique: true });
+
+export const Attendance = mongoose.model("Attendance", attendanceSchema);
