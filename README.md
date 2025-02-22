@@ -15,6 +15,6 @@ This is a web application designed to connect community members and share resour
 ## Installation
 ```sh
 git clone https://github.com/yourusername/sunshine-community.git
-cd sunshine-community
+cd SunShine_Community_Project
 npm install
 npm start
